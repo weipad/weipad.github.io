@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>活动报名汇总工具</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fb; color: #1e293b; padding: 16px 12px 30px; max-width: 800px; margin: 0 auto; }
+.app-header { font-size: 20px; font-weight: 700; color: #0f3b5e; display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid #dce3ef; flex-wrap: wrap; gap: 8px; }
+.app-header small { font-size: 13px; font-weight: 400; color: #5f6c84; }
+.tabs { display: flex; gap: 6px; background: #e9edf4; border-radius: 30px; padding: 5px; margin-bottom: 24px; flex-wrap: wrap; }
+.tab-btn { flex: 1; border: none; background: transparent; padding: 10px 0; border-radius: 30px; font-size: 15px; font-weight: 600; color: #3d4a62; cursor: pointer; min-width: 60px; }
+.tab-btn.active { background: #fff; color: #0f3b5e; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.page { display: none; background: #fff; border-radius: 24px; padding: 18px 16px 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+.page.active { display: block; }
+label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 4px; color: #1e293b; }
+.field-group { margin-bottom: 18px; }
+input, select, textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #dce3ef; border-radius: 16px; font-size: 15px; background: #fafcff; font-family: inherit; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: #2d7aff; background: #fff; }
+textarea { min-height: 80px; resize: vertical; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.btn { background: #2d7aff; color: #fff; border: none; padding: 13px 0; border-radius: 40px; font-size: 16px; font-weight: 600; width: 100%; cursor: pointer; }
+.btn:active { background: #1a5fd0; }
+.btn-outline { background: transparent; color: #2d7aff; border: 1.5px solid #2d7aff; }
+.btn-success { background: #16a34a; }
+.btn-sm { padding: 8px 18px; width: auto; display: inline-block; font-size: 14px; }
+.list-item { background: #f8faff; border-radius: 16px; padding: 12px 16px; margin-bottom: 8px; border-left: 4px solid #2d7aff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+.list-item .info { font-size: 15px; flex: 1; word-break: break-word; }
+.list-item .info strong { color: #0f3b5e; }
+.badge { background: #e9edf4; border-radius: 40px; padding: 2px 12px; font-size: 13px; white-space: nowrap; }
+.badge-blue { background: #dbe7ff; color: #1a5fd0; cursor: pointer; }
+.badge-red { background: #fee2e2; color: #b91c1c; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+th { background: #eef2f9; padding: 10px 6px; text-align: center; font-weight: 600; border-bottom: 2px solid #d0d9e8; white-space: nowrap; }
+td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #e6ecf5; }
+.total-row td { background: #f0f4fe; font-weight: 700; border-top: 2px solid #2d7aff; }
+.scroll-table { overflow-x: auto; margin-top: 8px; }
+.empty-tip { color: #8b9ab5; text-align: center; padding: 40px 0; font-size: 15px; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+.filter-row select, .filter-row input { width: auto; flex: 1; min-width: 80px; padding: 10px 12px; }
+.filter-row .btn { flex: 0 0 auto; width: auto; padding: 10px 18px; }
+.tag-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.tag { background: #eef2f9; border-radius: 30px; padding: 4px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+.tag .del { cursor: pointer; color: #e53e3e; font-weight: 700; font-size: 16px; line-height: 1; }
+.backup-card { background: #f8faff; border-radius: 20px; padding: 24px; text-align: center; border: 2px dashed #dce3ef; }
+.backup-card .btn { max-width: 200px; margin: 8px auto; }
+.backup-card p { color: #5f6c84; font-size: 14px; margin: 12px 0; }
+.file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; max-width: 200px; }
+.file-input-wrapper input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; padding: 12px 24px; border-radius: 40px; font-size: 14px; z-index: 9999; max-width: 90%; text-align: center; }
+.inline-add { display: flex; gap: 8px; align-items: center; }
+.inline-add input { flex: 1; }
+.inline-add .btn { flex: 0 0 auto; width: auto; padding: 10px 18px; }
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
+.modal-overlay.show { display: flex; }
+.modal-box { background: #fff; border-radius: 28px; padding: 28px 24px 24px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-box h3 { font-size: 18px; margin-bottom: 16px; color: #0f3b5e; }
+.modal-box .btn-row { display: flex; gap: 10px; margin-top: 10px; }
+.modal-box .btn-row .btn { flex: 1; }
+.signup-log-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #fafcff; border-radius: 12px; margin-bottom: 6px; border: 1px solid #eef2f9; font-size: 14px; }
+.batch-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #fafcff; border-radius: 12px; margin-bottom: 6px; border: 1px solid #eef2f9; }
+.batch-item input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; accent-color: #2d7aff; }
+.batch-item .label { flex: 1; font-size: 14px; }
+.batch-item .label .date { color: #5f6c84; font-size: 13px; }
+.batch-item input[type="number"] { width: 60px; padding: 6px 8px; border: 1.5px solid #dce3ef; border-radius: 12px; font-size: 15px; text-align: center; flex-shrink: 0; }
+.batch-item .status-badge { font-size: 12px; padding: 2px 10px; border-radius: 30px; flex-shrink: 0; }
+.batch-item .status-badge.exists { background: #dbe7ff; color: #1a5fd0; }
+.batch-item .status-badge.new { background: #dcfce7; color: #15803d; }
+.batch-header { display: flex; justify-content: space-between; align-items: center; padding: 4px 4px 10px 4px; border-bottom: 1px solid #e6ecf5; margin-bottom: 10px; font-weight: 600; font-size: 14px; color: #3d4a62; }
+.batch-header .count { font-weight: 400; color: #8b9ab5; font-size: 13px; }
+.member-select-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+.member-select-row select { flex: 1; }
+.member-select-row .btn { flex: 0 0 auto; width: auto; padding: 10px 20px; }
+.start-date-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: #f0f4fe; padding: 10px 14px; border-radius: 16px; margin-bottom: 16px; }
+.start-date-row label { margin: 0; font-size: 14px; font-weight: 600; color: #0f3b5e; }
+.start-date-row input { flex: 1; min-width: 130px; padding: 8px 12px; }
+.start-date-row .btn { flex: 0 0 auto; width: auto; padding: 8px 16px; font-size: 14px; }
+.start-date-row .hint { font-size: 13px; color: #5f6c84; margin-left: auto; }
+@media (max-width: 480px) { .row-3 { grid-template-columns: 1fr; } .filter-row select { min-width: 60px; } .batch-item { flex-wrap: wrap; } .batch-item input[type="number"] { width: 50px; } .start-date-row .hint { margin-left: 0; width: 100%; } }
+</style>
+</head>
+<body>
+
+<div class="app-header"><span>📋 活动报名汇总</span><small>纯本地</small></div>
+
+<div class="tabs">
+    <button class="tab-btn active" data-tab="members">👥 成员</button>
+    <button class="tab-btn" data-tab="activities">📅 活动</button>
+    <button class="tab-btn" data-tab="signup">✍️ 报名</button>
+    <button class="tab-btn" data-tab="summary">📊 汇总</button>
+    <button class="tab-btn" data-tab="backup">💾 备份</button>
+</div>
+
+<!-- 成员 -->
+<div id="page-members" class="page active">
+    <div class="field-group">
+        <label>➕ 添加成员</label>
+        <div class="inline-add">
+            <input type="text" id="addMemberInput" placeholder="输入昵称" />
+            <button class="btn btn-sm" id="addMemberBtn">添加</button>
+        </div>
+    </div>
+    <div id="memberListDisplay"></div>
+</div>
+
+<!-- 活动 -->
+<div id="page-activities" class="page">
+    <div class="row-3">
+        <div class="field-group"><label>📅 日期</label><input type="date" id="actDate" /></div>
+        <div class="field-group"><label>⏰ 时间</label><select id="actTimeSelect"><option value="">-- 选择 --</option></select></div>
+        <div class="field-group"><label>📍 地点</label><select id="actLocationSelect"><option value="">-- 选择 --</option></select></div>
+    </div>
+    <div class="field-group">
+        <label>📝 内容</label>
+        <select id="actContentSelect"><option value="">-- 选择内容 --</option></select>
+    </div>
+    <button class="btn" id="addActivityBtn">➕ 创建活动</button>
+
+    <hr style="margin:20px 0 14px;" />
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+        <span style="font-weight:600; font-size:14px;">📝 内容管理</span>
+        <input type="text" id="newContentInput" placeholder="如 羽毛球活动" style="flex:1; min-width:120px; padding:8px 12px;" />
+        <button class="btn btn-sm" id="addContentBtn">添加</button>
+    </div>
+    <div id="contentTagList" class="tag-group"></div>
+
+    <hr style="margin:20px 0 14px;" />
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+        <span style="font-weight:600; font-size:14px;">⏰ 时间管理</span>
+        <input type="text" id="newTimeInput" placeholder="如 14:00-16:00" style="flex:1; min-width:120px; padding:8px 12px;" />
+        <button class="btn btn-sm" id="addTimeBtn">添加</button>
+    </div>
+    <div id="timeTagList" class="tag-group"></div>
+
+    <hr style="margin:20px 0 14px;" />
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+        <span style="font-weight:600; font-size:14px;">📍 地点管理</span>
+        <input type="text" id="newLocationInput" placeholder="如 体育馆" style="flex:1; min-width:120px; padding:8px 12px;" />
+        <button class="btn btn-sm" id="addLocationBtn">添加</button>
+    </div>
+    <div id="locationTagList" class="tag-group"></div>
+
+    <hr style="margin:20px 0;" />
+    <div id="activityListDisplay"></div>
+</div>
+
+<!-- 报名 -->
+<div id="page-signup" class="page">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+        <button class="btn btn-sm" id="batchSignupBtn" style="flex:1; background:#16a34a;">📋 批量报名</button>
+    </div>
+    <div class="field-group"><label>📋 选择活动</label><select id="signupActivitySelect"><option value="">-- 请先创建活动 --</option></select></div>
+    <div class="field-group"><label>👤 选择成员</label><select id="signupMemberSelect"><option value="">-- 请先添加成员 --</option></select></div>
+    <div class="field-group"><label>🔢 报名人数</label><input type="number" id="signupCount" value="1" min="1" step="1" /></div>
+    <button class="btn" id="signupSubmitBtn">✅ 提交报名</button>
+    <div style="margin-top:14px; font-size:14px; color:#3d4a62;" id="signupStatus"></div>
+    <hr style="margin:24px 0 14px;" />
+    <div style="font-weight:600; font-size:15px; margin-bottom:10px;">📋 最近10条报名记录</div>
+    <div id="signupLogList"></div>
+</div>
+
+<!-- 汇总 -->
+<div id="page-summary" class="page">
+    <div class="start-date-row">
+        <label>📅 开始日期</label>
+        <input type="date" id="startDateInput" />
+        <button class="btn btn-sm" id="applyStartDateBtn" style="background:#2d7aff;">应用</button>
+        <span class="hint">默认本周一 · 报名下拉同步过滤</span>
+    </div>
+    <div class="filter-row">
+        <select id="filterYear"><option value="">年</option></select>
+        <select id="filterMonth"><option value="">月</option></select>
+        <select id="filterWeek"><option value="">周</option></select>
+        <button class="btn btn-sm" id="applyFilterBtn">过滤</button>
+        <button class="btn btn-sm btn-outline" id="resetFilterBtn">重置</button>
+    </div>
+    <div class="scroll-table" id="summaryTableWrapper"></div>
+</div>
+
+<!-- 备份 -->
+<div id="page-backup" class="page">
+    <div class="backup-card">
+        <div style="font-size:48px; margin-bottom:12px;">💾</div>
+        <h3 style="color:#0f3b5e; margin-bottom:8px;">数据备份与恢复</h3>
+        <p style="font-size:13px; color:#6b7a93;">导出备份（自动复制到剪贴板） · 导入时粘贴内容</p>
+        <button class="btn btn-success" id="exportBackupBtn" style="max-width:200px;">📤 导出备份</button>
+        <div style="height:12px;"></div>
+        <button class="btn btn-outline" id="importPasteBtn" style="max-width:200px;">📥 粘贴导入</button>
+        <div style="height:8px;"></div>
+        <div class="file-input-wrapper">
+            <button class="btn btn-outline" style="max-width:200px; background:#f0f4fe; border-color:#b0c8e8;">📂 从文件导入</button>
+            <input type="file" id="importBackupInput" accept=".json" />
+        </div>
+        <div style="height:16px;"></div>
+        <div style="border-top:1px dashed #dce3ef; margin:4px 0;"></div>
+        <p style="font-size:13px; color:#6b7a93; margin-top:12px;">没有数据？一键导入示例数据，快速体验</p>
+        <button class="btn" id="importSampleBtn" style="max-width:240px; background:linear-gradient(135deg,#2d7aff,#5b9eff);">🚀 一键导入示例数据</button>
+        <div style="height:8px;"></div>
+        <p style="font-size:12px; color:#8b9ab5;">或手动操作：下载文件后点「从文件导入」</p>
+        <a href="sample-data.json" download="报名数据备份_示例.json" class="btn btn-outline" style="max-width:200px; background:#fff8ec; border-color:#e8c87c; color:#b8860b; text-decoration:none; display:inline-block; line-height:42px; font-size:14px;">⬇️ 下载示例数据文件</a>
+        <p style="font-size:13px; color:#8b9ab5; margin-top:12px;">导入将<strong>覆盖</strong>当前所有数据</p>
+    </div>
+</div>
+
+<!-- 批量报名弹窗 -->
+<div id="batchModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>📋 批量报名</h3>
+        <p style="font-size:14px; color:#5f6c84; margin-bottom:12px;">选择一个成员，批量设置所有活动的报名人数</p>
+        <div class="member-select-row">
+            <select id="batchMemberSelect"><option value="">-- 请选择成员 --</option></select>
+            <button class="btn btn-sm" id="batchLoadBtn" style="background:#2d7aff;">加载活动</button>
+        </div>
+        <div id="batchListContainer">
+            <div class="empty-tip" style="padding:20px 0;">请先选择成员并点击"加载活动"</div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-outline" id="batchModalCancel">取消</button>
+            <button class="btn btn-success" id="batchModalSave">💾 保存全部</button>
+        </div>
+    </div>
+</div>
+
+<!-- 粘贴弹窗 -->
+<div id="pasteModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>📥 粘贴备份数据</h3>
+        <p style="font-size:14px; color:#5f6c84; margin-bottom:12px;">请将导出的JSON数据粘贴到下方文本框中</p>
+        <div class="field-group">
+            <textarea id="pasteInput" rows="8" placeholder="在此粘贴 JSON 数据..."></textarea>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-outline" id="pasteModalCancel">取消</button>
+            <button class="btn" id="pasteModalConfirm">确认导入</button>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 id="editModalTitle">编辑</h3>
+        <div id="editModalBody"></div>
+        <div class="btn-row">
+            <button class="btn btn-outline" id="editModalCancel">取消</button>
+            <button class="btn" id="editModalConfirm">保存</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var STORAGE_KEY = 'signupAppData_v14';
+
+    function getThisMonday() {
+        var d = new Date();
+        var day = d.getDay();
+        var diff = (day === 0 ? 6 : day - 1);
+        var m = new Date(d);
+        m.setDate(d.getDate() - diff);
+        var y = m.getFullYear();
+        var mo = String(m.getMonth() + 1).padStart(2, '0');
+        var da = String(m.getDate()).padStart(2, '0');
+        return y + '-' + mo + '-' + da;
+    }
+
+    function getDefaultData() {
+        return {
+            members: [],
+            activities: [],
+            signups: [],
+            contents: ['羽毛球活动', '篮球活动', '足球活动', '读书会', '聚餐'],
+            times: ['09:00-11:00', '14:00-16:00', '19:00-21:00'],
+            locations: ['体育馆A馆', '会议室B', '户外草坪'],
+            startDate: getThisMonday()
+        };
+    }
+
+    function sortTimes(arr) {
+        if (!arr || !arr.length) return [];
+        var list = arr.slice(0);
+        list.sort(function(a, b) {
+            var sa = a.split('-')[0] || a;
+            var sb = b.split('-')[0] || b;
+            if (sa < sb) return -1;
+            if (sa > sb) return 1;
+            return 0;
+        });
+        return list;
+    }
+
+    function loadData() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                var data = JSON.parse(raw);
+                if (!data.members || !data.members.length) data.members = [];
+                if (!data.activities || !data.activities.length) data.activities = [];
+                if (!data.signups || !data.signups.length) data.signups = [];
+                if (!data.contents || !data.contents.length) data.contents = ['羽毛球活动', '篮球活动', '足球活动', '读书会', '聚餐'];
+                if (!data.times || !data.times.length) data.times = ['09:00-11:00', '14:00-16:00', '19:00-21:00'];
+                if (!data.locations || !data.locations.length) data.locations = ['体育馆A馆', '会议室B', '户外草坪'];
+                if (!data.startDate) {
+                    data.startDate = getThisMonday();
+                }
+                data.times = sortTimes(data.times);
+                for (var i = 0; i < data.members.length; i++) {
+                    var m = data.members[i];
+                    if (!m.id) m.id = 'm_' + Date.now() + '_' + i;
+                    if (!m.nickname) m.nickname = '未命名';
+                    if (!m.note) m.note = '';
+                    if (!m.realname) m.realname = '';
+                }
+                return data;
+            }
+        } catch (e) {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+        return getDefaultData();
+    }
+
+    function saveData(data) {
+        if (data.times) data.times = sortTimes(data.times);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        currentData = data;
+    }
+
+    var currentData = loadData();
+    var editingTarget = null;
+
+    function getData() { return currentData; }
+    function setData(data) { currentData = data; saveData(data); }
+
+    function genId() {
+        return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+    }
+
+    function getWeekMonday(dateStr) {
+        if (!dateStr) return '';
+        try {
+            var d = new Date(dateStr + 'T00:00:00');
+            if (isNaN(d.getTime())) return '';
+            var day = d.getDay();
+            var diff = (day === 0 ? 6 : day - 1);
+            var m = new Date(d);
+            m.setDate(d.getDate() - diff);
+            var y = m.getFullYear();
+            var mo = String(m.getMonth() + 1).padStart(2, '0');
+            var da = String(m.getDate()).padStart(2, '0');
+            return y + '-' + mo + '-' + da;
+        } catch (e) { return ''; }
+    }
+
+    function getMemberName(id) {
+        if (!id) return '未知';
+        var data = getData();
+        for (var i = 0; i < data.members.length; i++) {
+            if (data.members[i].id === id) {
+                var m = data.members[i];
+                return m.note || m.nickname || '未命名';
+            }
+        }
+        return '已删除';
+    }
+
+    function getActivityLabel(id) {
+        if (!id) return '未知';
+        var data = getData();
+        for (var i = 0; i < data.activities.length; i++) {
+            if (data.activities[i].id === id) {
+                var a = data.activities[i];
+                return (a.date || '') + ' ' + (a.content || '');
+            }
+        }
+        return '已删除';
+    }
+
+    function showToast(msg) {
+        var old = document.querySelector('.toast');
+        if (old) old.remove();
+        var div = document.createElement('div');
+        div.className = 'toast';
+        div.textContent = msg;
+        document.body.appendChild(div);
+        setTimeout(function() { div.remove(); }, 2200);
+    }
+
+    function getStartDate() {
+        var input = document.getElementById('startDateInput');
+        return input ? input.value : '';
+    }
+
+    function filterByStartDate(activities, startDate) {
+        if (!startDate) return activities;
+        var result = [];
+        for (var i = 0; i < activities.length; i++) {
+            var a = activities[i];
+            if (a.date && a.date >= startDate) {
+                result.push(a);
+            }
+        }
+        return result;
+    }
+
+    // ----- 渲染 -----
+    function renderMembers() {
+        var data = getData();
+        var container = document.getElementById('memberListDisplay');
+        if (!data.members || data.members.length === 0) {
+            container.innerHTML = '<div class="empty-tip">暂无成员，请添加</div>';
+            return;
+        }
+        var html = '';
+        for (var i = 0; i < data.members.length; i++) {
+            var m = data.members[i];
+            var note = m.note ? ' (' + m.note + ')' : '';
+            var real = m.realname ? ' 备注:' + m.realname : '';
+            html += '<div class="list-item" data-id="' + m.id + '">';
+            html += '<div class="info"><strong>' + m.nickname + '</strong>' + note + real + '</div>';
+            html += '<div class="actions">';
+            html += '<span class="badge badge-blue" data-action="edit">✏️ 编辑</span>';
+            html += '<span class="badge badge-red" data-action="delete">删除</span>';
+            html += '</div></div>';
+        }
+        container.innerHTML = html;
+
+        var items = container.querySelectorAll('.list-item');
+        for (var j = 0; j < items.length; j++) {
+            (function(el) {
+                var id = el.getAttribute('data-id');
+                var editBtn = el.querySelector('[data-action="edit"]');
+                var delBtn = el.querySelector('[data-action="delete"]');
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openMemberEdit(id);
+                    });
+                }
+                if (delBtn) {
+                    delBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (confirm('确认删除该成员？')) {
+                            var data = getData();
+                            var newMembers = [];
+                            for (var k = 0; k < data.members.length; k++) {
+                                if (data.members[k].id !== id) newMembers.push(data.members[k]);
+                            }
+                            data.members = newMembers;
+                            var newSignups = [];
+                            for (var s = 0; s < data.signups.length; s++) {
+                                if (data.signups[s].memberId !== id) newSignups.push(data.signups[s]);
+                            }
+                            data.signups = newSignups;
+                            setData(data);
+                            refreshAll();
+                        }
+                    });
+                }
+            })(items[j]);
+        }
+    }
+
+    function renderActivities() {
+        var data = getData();
+        var container = document.getElementById('activityListDisplay');
+        if (!data.activities || data.activities.length === 0) {
+            container.innerHTML = '<div class="empty-tip">暂无活动，请创建</div>';
+            return;
+        }
+        var sorted = data.activities.slice(0);
+        sorted.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+        var html = '';
+        for (var i = 0; i < sorted.length; i++) {
+            var a = sorted[i];
+            var count = 0;
+            for (var s = 0; s < data.signups.length; s++) {
+                if (data.signups[s].activityId === a.id) count++;
+            }
+            html += '<div class="list-item" data-id="' + a.id + '">';
+            html += '<div class="info"><strong>' + (a.date || '') + ' ' + (a.time || '') + '</strong> ' + (a.location || '') + ' · ' + (a.content || '');
+            html += '<span class="badge" style="margin-left:8px;">' + count + '人报名</span></div>';
+            html += '<div class="actions">';
+            html += '<span class="badge badge-blue" data-action="edit">✏️ 编辑</span>';
+            html += '<span class="badge badge-red" data-action="delete">删除</span>';
+            html += '</div></div>';
+        }
+        container.innerHTML = html;
+
+        var items = container.querySelectorAll('.list-item');
+        for (var j = 0; j < items.length; j++) {
+            (function(el) {
+                var id = el.getAttribute('data-id');
+                var editBtn = el.querySelector('[data-action="edit"]');
+                var delBtn = el.querySelector('[data-action="delete"]');
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openActivityEdit(id);
+                    });
+                }
+                if (delBtn) {
+                    delBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (confirm('确认删除该活动？')) {
+                            var data = getData();
+                            var newActivities = [];
+                            for (var k = 0; k < data.activities.length; k++) {
+                                if (data.activities[k].id !== id) newActivities.push(data.activities[k]);
+                            }
+                            data.activities = newActivities;
+                            var newSignups = [];
+                            for (var s = 0; s < data.signups.length; s++) {
+                                if (data.signups[s].activityId !== id) newSignups.push(data.signups[s]);
+                            }
+                            data.signups = newSignups;
+                            setData(data);
+                            refreshAll();
+                        }
+                    });
+                }
+            })(items[j]);
+        }
+    }
+
+    function renderTags() {
+        var data = getData();
+        var cc = document.getElementById('contentTagList');
+        var chtml = '';
+        for (var i = 0; i < data.contents.length; i++) {
+            chtml += '<span class="tag">' + data.contents[i] + ' <span class="del" data-value="' + data.contents[i] + '">×</span></span>';
+        }
+        cc.innerHTML = chtml;
+        var cdels = cc.querySelectorAll('.del');
+        for (var j = 0; j < cdels.length; j++) {
+            cdels[j].addEventListener('click', function() {
+                var val = this.getAttribute('data-value');
+                var data = getData();
+                var newContents = [];
+                for (var k = 0; k < data.contents.length; k++) {
+                    if (data.contents[k] !== val) newContents.push(data.contents[k]);
+                }
+                data.contents = newContents;
+                setData(data);
+                refreshAll();
+            });
+        }
+
+        var tc = document.getElementById('timeTagList');
+        var sortedTimes = sortTimes(data.times || []);
+        var thtml = '';
+        for (var m = 0; m < sortedTimes.length; m++) {
+            thtml += '<span class="tag">' + sortedTimes[m] + ' <span class="del" data-value="' + sortedTimes[m] + '">×</span></span>';
+        }
+        tc.innerHTML = thtml;
+        var tdels = tc.querySelectorAll('.del');
+        for (var n = 0; n < tdels.length; n++) {
+            tdels[n].addEventListener('click', function() {
+                var val = this.getAttribute('data-value');
+                var data = getData();
+                var newTimes = [];
+                for (var k = 0; k < data.times.length; k++) {
+                    if (data.times[k] !== val) newTimes.push(data.times[k]);
+                }
+                data.times = newTimes;
+                setData(data);
+                refreshAll();
+            });
+        }
+
+        var lc = document.getElementById('locationTagList');
+        var locs = data.locations || [];
+        var lhtml = '';
+        for (var p = 0; p < locs.length; p++) {
+            lhtml += '<span class="tag">' + locs[p] + ' <span class="del" data-value="' + locs[p] + '">×</span></span>';
+        }
+        lc.innerHTML = lhtml;
+        var ldels = lc.querySelectorAll('.del');
+        for (var q = 0; q < ldels.length; q++) {
+            ldels[q].addEventListener('click', function() {
+                var val = this.getAttribute('data-value');
+                var data = getData();
+                var newLocs = [];
+                for (var k = 0; k < data.locations.length; k++) {
+                    if (data.locations[k] !== val) newLocs.push(data.locations[k]);
+                }
+                data.locations = newLocs;
+                setData(data);
+                refreshAll();
+            });
+        }
+    }
+
+    function populateSelects() {
+        var data = getData();
+        var startDate = getStartDate();
+
+        var contentSel = document.getElementById('actContentSelect');
+        var curContent = contentSel.value;
+        contentSel.innerHTML = '<option value="">-- 选择内容 --</option>';
+        for (var i = 0; i < data.contents.length; i++) {
+            var opt = document.createElement('option');
+            opt.value = data.contents[i];
+            opt.textContent = data.contents[i];
+            contentSel.appendChild(opt);
+        }
+        if (curContent) contentSel.value = curContent;
+
+        var timeSel = document.getElementById('actTimeSelect');
+        var curTime = timeSel.value;
+        var sortedTimes = sortTimes(data.times || []);
+        timeSel.innerHTML = '<option value="">-- 选择 --</option>';
+        for (var j = 0; j < sortedTimes.length; j++) {
+            var opt2 = document.createElement('option');
+            opt2.value = sortedTimes[j];
+            opt2.textContent = sortedTimes[j];
+            timeSel.appendChild(opt2);
+        }
+        if (curTime) timeSel.value = curTime;
+
+        var locSel = document.getElementById('actLocationSelect');
+        var curLoc = locSel.value;
+        locSel.innerHTML = '<option value="">-- 选择 --</option>';
+        for (var k = 0; k < data.locations.length; k++) {
+            var opt3 = document.createElement('option');
+            opt3.value = data.locations[k];
+            opt3.textContent = data.locations[k];
+            locSel.appendChild(opt3);
+        }
+        if (curLoc) locSel.value = curLoc;
+
+        var actSel = document.getElementById('signupActivitySelect');
+        var memSel = document.getElementById('signupMemberSelect');
+        var curAct = actSel.value;
+        var curMem = memSel.value;
+
+        var allActs = data.activities.slice(0);
+        allActs.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+        var filteredActs = filterByStartDate(allActs, startDate);
+
+        actSel.innerHTML = '<option value="">-- 请选择活动 --</option>';
+        for (var m = 0; m < filteredActs.length; m++) {
+            var a = filteredActs[m];
+            var opt4 = document.createElement('option');
+            opt4.value = a.id;
+            opt4.textContent = (a.date || '') + ' ' + (a.content || '');
+            actSel.appendChild(opt4);
+        }
+        if (curAct) actSel.value = curAct;
+
+        memSel.innerHTML = '<option value="">-- 请选择成员 --</option>';
+        for (var n = 0; n < data.members.length; n++) {
+            var mem = data.members[n];
+            var opt5 = document.createElement('option');
+            opt5.value = mem.id;
+            var note = mem.note ? ' (' + mem.note + ')' : '';
+            opt5.textContent = mem.nickname + note;
+            memSel.appendChild(opt5);
+        }
+        if (curMem) memSel.value = curMem;
+
+        var batchMemSel = document.getElementById('batchMemberSelect');
+        var curBatchMem = batchMemSel.value;
+        batchMemSel.innerHTML = '<option value="">-- 请选择成员 --</option>';
+        for (var b = 0; b < data.members.length; b++) {
+            var bm = data.members[b];
+            var opt6 = document.createElement('option');
+            opt6.value = bm.id;
+            var bnote = bm.note ? ' (' + bm.note + ')' : '';
+            opt6.textContent = bm.nickname + bnote;
+            batchMemSel.appendChild(opt6);
+        }
+        if (curBatchMem) batchMemSel.value = curBatchMem;
+
+        document.getElementById('signupStatus').textContent = '';
+    }
+
+    function renderSignupLog() {
+        var data = getData();
+        var container = document.getElementById('signupLogList');
+        var sorted = data.signups.slice(0).reverse();
+        var latest = sorted.slice(0, 10);
+        if (latest.length === 0) {
+            container.innerHTML = '<div class="empty-tip">暂无报名记录</div>';
+            return;
+        }
+        var html = '';
+        for (var i = 0; i < latest.length; i++) {
+            var s = latest[i];
+            var memberName = getMemberName(s.memberId);
+            var activityLabel = getActivityLabel(s.activityId);
+            html += '<div class="signup-log-item" data-id="' + s.id + '">';
+            html += '<span>' + memberName + ' → ' + activityLabel + ' × ' + (s.count || 0) + '人</span>';
+            html += '<span class="del-btn" data-id="' + s.id + '" style="color:#e53e3e;cursor:pointer;font-weight:700;font-size:18px;padding:0 6px;">✕</span>';
+            html += '</div>';
+        }
+        container.innerHTML = html;
+        var dels = container.querySelectorAll('.del-btn');
+        for (var j = 0; j < dels.length; j++) {
+            dels[j].addEventListener('click', function() {
+                var id = this.getAttribute('data-id');
+                if (confirm('删除此报名记录？')) {
+                    var data = getData();
+                    var newSignups = [];
+                    for (var k = 0; k < data.signups.length; k++) {
+                        if (data.signups[k].id !== id) newSignups.push(data.signups[k]);
+                    }
+                    data.signups = newSignups;
+                    setData(data);
+                    refreshAll();
+                }
+            });
+        }
+    }
+
+    function loadBatchList() {
+        var memberId = document.getElementById('batchMemberSelect').value;
+        if (!memberId) {
+            showToast('请先选择成员');
+            return;
+        }
+        var data = getData();
+        var container = document.getElementById('batchListContainer');
+        var startDate = getStartDate();
+
+        var acts = filterByStartDate(data.activities, startDate);
+        acts.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+
+        if (acts.length === 0) {
+            container.innerHTML = '<div class="empty-tip" style="padding:20px 0;">没有匹配的活动</div>';
+            return;
+        }
+
+        var html = '<div class="batch-header"><span>活动列表</span><span class="count">共 ' + acts.length + ' 个活动</span></div>';
+        for (var i = 0; i < acts.length; i++) {
+            var a = acts[i];
+            var existSignup = null;
+            for (var s = 0; s < data.signups.length; s++) {
+                if (data.signups[s].activityId === a.id && data.signups[s].memberId === memberId) {
+                    existSignup = data.signups[s];
+                    break;
+                }
+            }
+            var checked = existSignup ? 'checked' : '';
+            var val = existSignup ? existSignup.count : 1;
+            var status = existSignup ? '<span class="status-badge exists">已报 ' + existSignup.count + '人</span>' : '<span class="status-badge new">未报</span>';
+            html += '<div class="batch-item" data-activity-id="' + a.id + '">';
+            html += '<input type="checkbox" class="batch-checkbox" ' + checked + ' />';
+            html += '<span class="label"><strong>' + a.content + '</strong> <span class="date">' + a.date + ' ' + (a.time || '') + ' @' + (a.location || '') + '</span></span>';
+            html += '<input type="number" class="batch-count" value="' + val + '" min="1" step="1" />';
+            html += status;
+            html += '</div>';
+        }
+        html += '<div style="margin-top:10px; font-size:13px; color:#5f6c84;">💡 勾选活动即报名，取消勾选即删除该报名记录</div>';
+        container.innerHTML = html;
+    }
+
+    function saveBatchSignups() {
+        var memberId = document.getElementById('batchMemberSelect').value;
+        if (!memberId) {
+            showToast('请先选择成员');
+            return;
+        }
+        var data = getData();
+        var items = document.querySelectorAll('#batchListContainer .batch-item');
+        var added = 0, removed = 0, updated = 0;
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var activityId = item.getAttribute('data-activity-id');
+            var checkbox = item.querySelector('.batch-checkbox');
+            var countInput = item.querySelector('.batch-count');
+            var count = parseInt(countInput.value, 10) || 1;
+            if (count < 1) count = 1;
+
+            var existIdx = -1;
+            for (var s = 0; s < data.signups.length; s++) {
+                if (data.signups[s].activityId === activityId && data.signups[s].memberId === memberId) {
+                    existIdx = s;
+                    break;
+                }
+            }
+
+            if (checkbox.checked) {
+                if (existIdx !== -1) {
+                    if (data.signups[existIdx].count !== count) {
+                        data.signups[existIdx].count = count;
+                        updated++;
+                    }
+                } else {
+                    data.signups.push({ id: genId(), activityId: activityId, memberId: memberId, count: count });
+                    added++;
+                }
+            } else {
+                if (existIdx !== -1) {
+                    data.signups.splice(existIdx, 1);
+                    removed++;
+                }
+            }
+        }
+
+        setData(data);
+        refreshAll();
+        loadBatchList();
+        var msg = '✅ 保存完成';
+        if (added) msg += ' 新增 ' + added + ' 条';
+        if (updated) msg += ' 更新 ' + updated + ' 条';
+        if (removed) msg += ' 删除 ' + removed + ' 条';
+        if (!added && !updated && !removed) msg = 'ℹ️ 无变化';
+        showToast(msg);
+    }
+
+    function populateFilters() {
+        var data = getData();
+        var yearSel = document.getElementById('filterYear');
+        var monthSel = document.getElementById('filterMonth');
+        var weekSel = document.getElementById('filterWeek');
+        var dates = [];
+        for (var i = 0; i < data.activities.length; i++) {
+            if (data.activities[i].date) dates.push(data.activities[i].date);
+        }
+        var years = [];
+        for (var j = 0; j < dates.length; j++) {
+            var y = dates[j].slice(0, 4);
+            if (years.indexOf(y) === -1) years.push(y);
+        }
+        years.sort();
+        var curYear = yearSel.value;
+        yearSel.innerHTML = '<option value="">年</option>';
+        for (var k = 0; k < years.length; k++) {
+            var o = document.createElement('option');
+            o.value = years[k];
+            o.textContent = years[k];
+            yearSel.appendChild(o);
+        }
+        if (curYear) yearSel.value = curYear;
+
+        monthSel.innerHTML = '<option value="">月</option>';
+        for (var m = 1; m <= 12; m++) {
+            var v = String(m).padStart(2, '0');
+            var o2 = document.createElement('option');
+            o2.value = v;
+            o2.textContent = v + '月';
+            monthSel.appendChild(o2);
+        }
+        updateWeekOptions();
+    }
+
+    function updateWeekOptions() {
+        var data = getData();
+        var year = document.getElementById('filterYear').value;
+        var month = document.getElementById('filterMonth').value;
+        var weekSel = document.getElementById('filterWeek');
+        var curWeek = weekSel.value;
+        weekSel.innerHTML = '<option value="">周</option>';
+        var dates = [];
+        for (var i = 0; i < data.activities.length; i++) {
+            if (data.activities[i].date) dates.push(data.activities[i].date);
+        }
+        if (year) {
+            var newDates = [];
+            for (var j = 0; j < dates.length; j++) {
+                if (dates[j].startsWith(year)) newDates.push(dates[j]);
+            }
+            dates = newDates;
+        }
+        if (month) {
+            var newDates2 = [];
+            for (var k = 0; k < dates.length; k++) {
+                if (dates[k].startsWith(year + '-' + month)) newDates2.push(dates[k]);
+            }
+            dates = newDates2;
+        }
+        var weeks = [];
+        for (var m = 0; m < dates.length; m++) {
+            var w = getWeekMonday(dates[m]);
+            if (w && weeks.indexOf(w) === -1) weeks.push(w);
+        }
+        weeks.sort();
+        for (var n = 0; n < weeks.length; n++) {
+            var o3 = document.createElement('option');
+            o3.value = weeks[n];
+            o3.textContent = '周起始 ' + weeks[n];
+            weekSel.appendChild(o3);
+        }
+        if (curWeek) weekSel.value = curWeek;
+    }
+
+    function renderSummary(year, month, week) {
+        var data = getData();
+        var wrapper = document.getElementById('summaryTableWrapper');
+        var startDate = getStartDate();
+
+        var acts = filterByStartDate(data.activities, startDate);
+
+        if (year) {
+            var newActs = [];
+            for (var i = 0; i < acts.length; i++) {
+                if (acts[i].date && acts[i].date.startsWith(year)) {
+                    newActs.push(acts[i]);
+                }
+            }
+            acts = newActs;
+        }
+        if (month) {
+            var newActs2 = [];
+            for (var j = 0; j < acts.length; j++) {
+                if (acts[j].date && acts[j].date.startsWith(year + '-' + month)) {
+                    newActs2.push(acts[j]);
+                }
+            }
+            acts = newActs2;
+        }
+        if (week) {
+            var newActs3 = [];
+            for (var k = 0; k < acts.length; k++) {
+                var w = getWeekMonday(acts[k].date);
+                if (w && w === week) {
+                    newActs3.push(acts[k]);
+                }
+            }
+            acts = newActs3;
+        }
+        acts.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+
+        if (acts.length === 0) {
+            wrapper.innerHTML = '<div class="empty-tip">没有匹配的活动</div>';
+            return;
+        }
+        if (data.members.length === 0) {
+            wrapper.innerHTML = '<div class="empty-tip">请先添加成员</div>';
+            return;
+        }
+
+        var html = '<table><thead><tr><th>成员 \\ 活动</th>';
+        for (var a1 = 0; a1 < acts.length; a1++) {
+            var short = acts[a1].content || '活动';
+            html += '<th>' + (acts[a1].date || '') + '<br><small>' + short + '</small></th>';
+        }
+        html += '<th>合计</th></tr></thead><tbody>';
+
+        var colTotals = [];
+        for (var c = 0; c < acts.length; c++) colTotals[c] = 0;
+
+        for (var m1 = 0; m1 < data.members.length; m1++) {
+            var mem = data.members[m1];
+            html += '<tr><td style="font-weight:600;text-align:left;">' + (mem.note || mem.nickname || '未命名') + '</td>';
+            var rowTotal = 0;
+            for (var a2 = 0; a2 < acts.length; a2++) {
+                var count = 0;
+                for (var s = 0; s < data.signups.length; s++) {
+                    if (data.signups[s].activityId === acts[a2].id && data.signups[s].memberId === mem.id) {
+                        count = data.signups[s].count || 0;
+                        break;
+                    }
+                }
+                rowTotal += count;
+                colTotals[a2] += count;
+                html += '<td>' + (count || '-') + '</td>';
+            }
+            html += '<td>' + rowTotal + '</td></tr>';
+        }
+
+        html += '<tr class="total-row"><td>📊 合计</td>';
+        var grand = 0;
+        for (var t = 0; t < colTotals.length; t++) {
+            grand += colTotals[t];
+            html += '<td>' + colTotals[t] + '</td>';
+        }
+        html += '<td>' + grand + '</td></tr></tbody></table>';
+        wrapper.innerHTML = html;
+    }
+
+    function openMemberEdit(id) {
+        var data = getData();
+        var m = null;
+        for (var i = 0; i < data.members.length; i++) {
+            if (data.members[i].id === id) { m = data.members[i]; break; }
+        }
+        if (!m) return;
+        editingTarget = { type: 'member', id: id };
+        document.getElementById('editModalTitle').textContent = '编辑成员';
+        document.getElementById('editModalBody').innerHTML =
+            '<div class="field-group"><label>昵称</label><input type="text" id="editMemberNickname" value="' + (m.nickname || '') + '" /></div>' +
+            '<div class="field-group"><label>称谓（如 王叔）</label><input type="text" id="editMemberNote" value="' + (m.note || '') + '" /></div>' +
+            '<div class="field-group"><label>备注（实名）</label><input type="text" id="editMemberRealname" value="' + (m.realname || '') + '" /></div>';
+        document.getElementById('editModal').className = 'modal-overlay show';
+    }
+
+    function openActivityEdit(id) {
+        var data = getData();
+        var a = null;
+        for (var i = 0; i < data.activities.length; i++) {
+            if (data.activities[i].id === id) { a = data.activities[i]; break; }
+        }
+        if (!a) return;
+        editingTarget = { type: 'activity', id: id };
+        var sortedTimes = sortTimes(data.times || []);
+        var timeOpts = '';
+        for (var j = 0; j < sortedTimes.length; j++) {
+            var sel = (sortedTimes[j] === a.time) ? ' selected' : '';
+            timeOpts += '<option value="' + sortedTimes[j] + '"' + sel + '>' + sortedTimes[j] + '</option>';
+        }
+        var locOpts = '';
+        for (var k = 0; k < data.locations.length; k++) {
+            var sel2 = (data.locations[k] === a.location) ? ' selected' : '';
+            locOpts += '<option value="' + data.locations[k] + '"' + sel2 + '>' + data.locations[k] + '</option>';
+        }
+        var contentOpts = '';
+        for (var l = 0; l < data.contents.length; l++) {
+            var sel3 = (data.contents[l] === a.content) ? ' selected' : '';
+            contentOpts += '<option value="' + data.contents[l] + '"' + sel3 + '>' + data.contents[l] + '</option>';
+        }
+        document.getElementById('editModalTitle').textContent = '编辑活动';
+        document.getElementById('editModalBody').innerHTML =
+            '<div class="field-group"><label>📅 日期</label><input type="date" id="editActDate" value="' + (a.date || '') + '" /></div>' +
+            '<div class="field-group"><label>⏰ 时间</label><select id="editActTimeSelect"><option value="">-- 选择 --</option>' + timeOpts + '</select></div>' +
+            '<div class="field-group"><label>📍 地点</label><select id="editActLocationSelect"><option value="">-- 选择 --</option>' + locOpts + '</select></div>' +
+            '<div class="field-group"><label>📝 内容</label><select id="editActContentSelect"><option value="">-- 选择 --</option>' + contentOpts + '</select></div>';
+        document.getElementById('editModal').className = 'modal-overlay show';
+    }
+
+    function closeModal() {
+        document.getElementById('editModal').className = 'modal-overlay';
+        editingTarget = null;
+    }
+
+    function saveEdit() {
+        if (!editingTarget) return;
+        var data = getData();
+        if (editingTarget.type === 'member') {
+            var m = null;
+            for (var i = 0; i < data.members.length; i++) {
+                if (data.members[i].id === editingTarget.id) { m = data.members[i]; break; }
+            }
+            if (!m) { closeModal(); return; }
+            var nickname = document.getElementById('editMemberNickname').value.trim();
+            var note = document.getElementById('editMemberNote').value.trim();
+            var realname = document.getElementById('editMemberRealname').value.trim();
+            if (!nickname) { alert('昵称不能为空'); return; }
+            m.nickname = nickname;
+            m.note = note;
+            m.realname = realname;
+            setData(data);
+            refreshAll();
+            closeModal();
+        } else if (editingTarget.type === 'activity') {
+            var a = null;
+            for (var j = 0; j < data.activities.length; j++) {
+                if (data.activities[j].id === editingTarget.id) { a = data.activities[j]; break; }
+            }
+            if (!a) { closeModal(); return; }
+            var date = document.getElementById('editActDate').value;
+            var time = document.getElementById('editActTimeSelect').value;
+            var location = document.getElementById('editActLocationSelect').value;
+            var content = document.getElementById('editActContentSelect').value;
+            if (!date) { alert('日期不能为空'); return; }
+            a.date = date;
+            a.time = time;
+            a.location = location;
+            a.content = content;
+            setData(data);
+            refreshAll();
+            closeModal();
+        }
+    }
+
+    function showPasteModal() {
+        document.getElementById('pasteInput').value = '';
+        document.getElementById('pasteModal').className = 'modal-overlay show';
+    }
+
+    function closePasteModal() {
+        document.getElementById('pasteModal').className = 'modal-overlay';
+    }
+
+    function doPasteImport() {
+        var text = document.getElementById('pasteInput').value;
+        if (!text || !text.trim()) {
+            showToast('⚠️ 请粘贴数据');
+            return;
+        }
+        try {
+            var imported = JSON.parse(text);
+            if (!imported.members || !imported.activities || !imported.signups) {
+                showToast('❌ 数据格式无效');
+                return;
+            }
+            if (!confirm('导入将覆盖当前所有数据，确认继续？')) return;
+            if (!imported.contents || !imported.contents.length) imported.contents = ['羽毛球活动', '篮球活动', '足球活动', '读书会', '聚餐'];
+            if (!imported.times || !imported.times.length) imported.times = ['09:00-11:00', '14:00-16:00', '19:00-21:00'];
+            if (!imported.locations || !imported.locations.length) imported.locations = ['体育馆A馆', '会议室B', '户外草坪'];
+            imported.times = sortTimes(imported.times);
+            setData(imported);
+            refreshAll();
+            closePasteModal();
+            showToast('✅ 导入成功！');
+        } catch (err) {
+            showToast('❌ 数据格式错误，请检查粘贴内容');
+        }
+    }
+
+    function exportBackup() {
+        var data = getData();
+        var json = JSON.stringify(data, null, 2);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(json).then(function() {
+                showToast('✅ 已复制到剪贴板');
+            }).catch(function() {});
+        }
+        var blob = new Blob([json], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = '报名数据备份_' + new Date().toISOString().slice(0, 10) + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('📤 导出成功');
+    }
+
+    function importFromFile(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var imported = JSON.parse(e.target.result);
+                if (!imported.members || !imported.activities || !imported.signups) {
+                    showToast('❌ 备份文件格式无效');
+                    return;
+                }
+                if (!confirm('导入将覆盖当前所有数据，确认继续？')) return;
+                if (!imported.contents || !imported.contents.length) imported.contents = ['羽毛球活动', '篮球活动', '足球活动', '读书会', '聚餐'];
+                if (!imported.times || !imported.times.length) imported.times = ['09:00-11:00', '14:00-16:00', '19:00-21:00'];
+                if (!imported.locations || !imported.locations.length) imported.locations = ['体育馆A馆', '会议室B', '户外草坪'];
+                imported.times = sortTimes(imported.times);
+                setData(imported);
+                refreshAll();
+                showToast('✅ 从文件导入成功！');
+            } catch (err) {
+                showToast('❌ 文件解析失败');
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function importFromServer() {
+        if (!confirm('将从服务器加载示例数据并覆盖当前所有数据，确认继续？')) return;
+        var btn = document.getElementById('importSampleBtn');
+        var originalText = btn.textContent;
+        btn.textContent = '⏳ 加载中...';
+        btn.disabled = true;
+        fetch('sample-data.json?v=' + Date.now())
+            .then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function(imported) {
+                if (!imported.members || !imported.activities || !imported.signups) {
+                    showToast('❌ 示例数据格式无效');
+                    return;
+                }
+                if (!imported.contents || !imported.contents.length) imported.contents = ['羽毛球活动', '篮球活动', '足球活动', '读书会', '聚餐'];
+                if (!imported.times || !imported.times.length) imported.times = ['09:00-11:00', '14:00-16:00', '19:00-21:00'];
+                if (!imported.locations || !imported.locations.length) imported.locations = ['体育馆A馆', '会议室B', '户外草坪'];
+                imported.times = sortTimes(imported.times);
+                setData(imported);
+                refreshAll();
+                showToast('✅ 示例数据导入成功！');
+            })
+            .catch(function(err) {
+                showToast('❌ 加载失败：' + err.message);
+            })
+            .finally(function() {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+    }
+
+    function refreshAll() {
+        renderMembers();
+        renderActivities();
+        renderTags();
+        populateSelects();
+        renderSignupLog();
+        populateFilters();
+        var year = document.getElementById('filterYear').value;
+        var month = document.getElementById('filterMonth').value;
+        var week = document.getElementById('filterWeek').value;
+        renderSummary(year, month, week);
+    }
+
+    function init() {
+        var tabs = document.querySelectorAll('.tab-btn');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].addEventListener('click', function() {
+                var all = document.querySelectorAll('.tab-btn');
+                for (var j = 0; j < all.length; j++) all[j].className = 'tab-btn';
+                this.className = 'tab-btn active';
+                var pages = document.querySelectorAll('.page');
+                for (var k = 0; k < pages.length; k++) pages[k].className = 'page';
+                document.getElementById('page-' + this.getAttribute('data-tab')).className = 'page active';
+            });
+        }
+
+        var startDateInput = document.getElementById('startDateInput');
+        var data = getData();
+        var savedStartDate = data.startDate || getThisMonday();
+        startDateInput.value = savedStartDate;
+
+        function applyStartDate() {
+            var val = startDateInput.value;
+            var d = getData();
+            d.startDate = val || '';
+            setData(d);
+            refreshAll();
+            showToast('✅ 开始日期已更新');
+        }
+
+        document.getElementById('applyStartDateBtn').addEventListener('click', applyStartDate);
+
+        startDateInput.addEventListener('change', function() {
+            var val = this.value;
+            var d = getData();
+            d.startDate = val || '';
+            setData(d);
+            refreshAll();
+        });
+
+        document.getElementById('exportBackupBtn').addEventListener('click', exportBackup);
+        document.getElementById('importPasteBtn').addEventListener('click', showPasteModal);
+        document.getElementById('importSampleBtn').addEventListener('click', importFromServer);
+        document.getElementById('importBackupInput').addEventListener('change', function(e) {
+            if (this.files && this.files.length > 0) {
+                importFromFile(this.files[0]);
+            }
+            this.value = '';
+        });
+
+        document.getElementById('pasteModalCancel').addEventListener('click', closePasteModal);
+        document.getElementById('pasteModalConfirm').addEventListener('click', doPasteImport);
+        document.getElementById('pasteModal').addEventListener('click', function(e) {
+            if (e.target === this) closePasteModal();
+        });
+
+        document.getElementById('batchSignupBtn').addEventListener('click', function() {
+            var data = getData();
+            if (data.members.length === 0) { alert('请先添加成员'); return; }
+            if (data.activities.length === 0) { alert('请先创建活动'); return; }
+            document.getElementById('batchModal').className = 'modal-overlay show';
+            document.getElementById('batchListContainer').innerHTML = '<div class="empty-tip" style="padding:20px 0;">请选择成员并点击"加载活动"</div>';
+        });
+        document.getElementById('batchLoadBtn').addEventListener('click', loadBatchList);
+        document.getElementById('batchModalCancel').addEventListener('click', function() {
+            document.getElementById('batchModal').className = 'modal-overlay';
+        });
+        document.getElementById('batchModalSave').addEventListener('click', saveBatchSignups);
+        document.getElementById('batchModal').addEventListener('click', function(e) {
+            if (e.target === this) document.getElementById('batchModal').className = 'modal-overlay';
+        });
+
+        document.getElementById('addContentBtn').addEventListener('click', function() {
+            var input = document.getElementById('newContentInput');
+            var val = input.value.trim();
+            if (!val) { alert('请输入内容'); return; }
+            var data = getData();
+            if (data.contents.indexOf(val) !== -1) { alert('已存在'); return; }
+            data.contents.push(val);
+            setData(data);
+            refreshAll();
+            document.getElementById('actContentSelect').value = val;
+            input.value = '';
+        });
+        document.getElementById('newContentInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('addContentBtn').click();
+        });
+
+        document.getElementById('addMemberBtn').addEventListener('click', function() {
+            var input = document.getElementById('addMemberInput');
+            var val = input.value.trim();
+            if (!val) { alert('请输入昵称'); return; }
+            var data = getData();
+            var exists = false;
+            for (var i = 0; i < data.members.length; i++) {
+                if (data.members[i].nickname === val) { exists = true; break; }
+            }
+            if (exists) { alert('该成员已存在'); return; }
+            data.members.push({ id: genId(), nickname: val, note: '', realname: '' });
+            setData(data);
+            refreshAll();
+            input.value = '';
+        });
+
+        document.getElementById('addTimeBtn').addEventListener('click', function() {
+            var input = document.getElementById('newTimeInput');
+            var val = input.value.trim();
+            if (!val) { alert('请输入时间段'); return; }
+            var data = getData();
+            if (data.times.indexOf(val) !== -1) { alert('已存在'); return; }
+            data.times.push(val);
+            data.times = sortTimes(data.times);
+            setData(data);
+            refreshAll();
+            document.getElementById('actTimeSelect').value = val;
+            input.value = '';
+        });
+
+        document.getElementById('addLocationBtn').addEventListener('click', function() {
+            var input = document.getElementById('newLocationInput');
+            var val = input.value.trim();
+            if (!val) { alert('请输入地点'); return; }
+            var data = getData();
+            if (data.locations.indexOf(val) !== -1) { alert('已存在'); return; }
+            data.locations.push(val);
+            setData(data);
+            refreshAll();
+            document.getElementById('actLocationSelect').value = val;
+            input.value = '';
+        });
+
+        document.getElementById('addActivityBtn').addEventListener('click', function() {
+            var date = document.getElementById('actDate').value;
+            var time = document.getElementById('actTimeSelect').value;
+            var location = document.getElementById('actLocationSelect').value;
+            var content = document.getElementById('actContentSelect').value;
+            if (!date) { alert('请选择日期'); return; }
+            if (!content) { alert('请选择内容'); return; }
+            var data = getData();
+            data.activities.push({ id: genId(), date: date, time: time, location: location, content: content });
+            setData(data);
+            refreshAll();
+            document.getElementById('actDate').value = '';
+            document.getElementById('actTimeSelect').value = '';
+            document.getElementById('actLocationSelect').value = '';
+            document.getElementById('actContentSelect').value = '';
+            showToast('✅ 活动创建成功');
+        });
+
+        document.getElementById('signupSubmitBtn').addEventListener('click', function() {
+            var activityId = document.getElementById('signupActivitySelect').value;
+            var memberId = document.getElementById('signupMemberSelect').value;
+            var count = parseInt(document.getElementById('signupCount').value, 10);
+            if (!activityId) { alert('请选择活动'); return; }
+            if (!memberId) { alert('请选择成员'); return; }
+            if (!count || count < 1) { alert('请输入有效人数'); return; }
+            var data = getData();
+            var existIdx = -1;
+            for (var i = 0; i < data.signups.length; i++) {
+                if (data.signups[i].activityId === activityId && data.signups[i].memberId === memberId) {
+                    existIdx = i;
+                    break;
+                }
+            }
+            if (existIdx !== -1) {
+                data.signups[existIdx].count = count;
+                document.getElementById('signupStatus').textContent = '✅ 已更新报名！';
+            } else {
+                data.signups.push({ id: genId(), activityId: activityId, memberId: memberId, count: count });
+                document.getElementById('signupStatus').textContent = '✅ 报名成功！';
+            }
+            setData(data);
+            refreshAll();
+        });
+
+        document.getElementById('applyFilterBtn').addEventListener('click', function() {
+            var year = document.getElementById('filterYear').value;
+            var month = document.getElementById('filterMonth').value;
+            var week = document.getElementById('filterWeek').value;
+            renderSummary(year, month, week);
+        });
+
+        document.getElementById('resetFilterBtn').addEventListener('click', function() {
+            document.getElementById('filterYear').value = '';
+            document.getElementById('filterMonth').value = '';
+            document.getElementById('filterWeek').value = '';
+            renderSummary('', '', '');
+        });
+
+        document.getElementById('filterYear').addEventListener('change', updateWeekOptions);
+        document.getElementById('filterMonth').addEventListener('change', updateWeekOptions);
+
+        document.getElementById('editModalCancel').addEventListener('click', closeModal);
+        document.getElementById('editModalConfirm').addEventListener('click', saveEdit);
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('actDate').value = new Date().toISOString().slice(0, 10);
+        refreshAll();
+        showToast('✅ 已加载 · 开始日期=' + (savedStartDate || '全部'));
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

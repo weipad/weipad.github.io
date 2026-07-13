@@ -1,0 +1,785 @@
+{
+  "members": [
+    {
+      "id": "id_1783304657064_1j0r",
+      "nickname": "侃侃而谈侃文",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783304665442_pzus",
+      "nickname": "stone",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783307516441_bvjq",
+      "nickname": "郑敏",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313120521_w52r",
+      "nickname": "陈松芸",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313143540_huu7",
+      "nickname": "张之煌",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313161082_k917",
+      "nickname": "心想事成",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313177556_kd03",
+      "nickname": "哈瓦那幽兰",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313193402_58vm",
+      "nickname": "蜻蜓",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313209621_aecf",
+      "nickname": "时髦外婆",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313224572_4eio",
+      "nickname": "magL",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313242166_m0hp",
+      "nickname": "汪素琴",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313260223_h1u3",
+      "nickname": "葵雨",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313288661_6t0j",
+      "nickname": "李寶豐",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313305598_cu6s",
+      "nickname": "张银宝",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313319645_q1gm",
+      "nickname": "平越",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313333244_fwez",
+      "nickname": "Guer",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783313349597_827l",
+      "nickname": "蕙美",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783853615077_bc54",
+      "nickname": "康秀玉",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783853627757_tq4c",
+      "nickname": "娄松枝",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783854304857_y5ae",
+      "nickname": "身心自在",
+      "note": "",
+      "realname": ""
+    },
+    {
+      "id": "id_1783854329412_zuwo",
+      "nickname": "wgh",
+      "note": "",
+      "realname": ""
+    }
+  ],
+  "activities": [
+    {
+      "id": "id_1783304793300_qrjh",
+      "date": "2026-07-06",
+      "time": "14:15-15:15",
+      "location": "泾美家记忆家",
+      "content": "音乐疗法"
+    },
+    {
+      "id": "id_1783307169430_x866",
+      "date": "2026-07-07",
+      "time": "09:30-10:45",
+      "location": "泾美家记忆家",
+      "content": "体脑协同训练"
+    },
+    {
+      "id": "id_1783307245064_rrr5",
+      "date": "2026-07-08",
+      "time": "14:15-15:30",
+      "location": "泾美家记忆家",
+      "content": "手工制作"
+    },
+    {
+      "id": "id_1783307283345_pmm5",
+      "date": "2026-07-09",
+      "time": "14:15-15:30",
+      "location": "泾美家记忆家",
+      "content": "艺术疗法"
+    },
+    {
+      "id": "id_1783307314398_akyl",
+      "date": "2026-07-10",
+      "time": "14:00-15:00",
+      "location": "洋泾泾美家",
+      "content": "健康科普讲座"
+    },
+    {
+      "id": "id_1783326272110_yp5z",
+      "date": "2026-07-26",
+      "time": "09:30-10:45",
+      "location": "泾美家记忆家",
+      "content": "认知症家庭照料者赋能培训"
+    },
+    {
+      "id": "id_1783326721449_08rp",
+      "date": "2026-07-11",
+      "time": "13:30-16:30",
+      "location": "泾美家LCM",
+      "content": "认知症改善型工作坊"
+    },
+    {
+      "id": "id_1783550969875_61ge",
+      "date": "2026-07-24",
+      "time": "08:30-09:00",
+      "location": "社区卫生中心",
+      "content": "体检"
+    },
+    {
+      "id": "id_1783550998813_xcbm",
+      "date": "2026-07-20",
+      "time": "09:00-10:00",
+      "location": "社区卫生中心",
+      "content": "非药物干预培训"
+    },
+    {
+      "id": "id_1783553487672_tvgz",
+      "date": "2026-07-11",
+      "time": "13:30-16:30",
+      "location": "泾美家LCM",
+      "content": "陪护"
+    },
+    {
+      "id": "id_1783553506372_3q1q",
+      "date": "2026-07-04",
+      "time": "14:00-15:00",
+      "location": "静安游泳馆",
+      "content": "游泳"
+    },
+    {
+      "id": "id_1783553536797_eu7n",
+      "date": "2026-07-05",
+      "time": "14:00-15:00",
+      "location": "上海博物馆",
+      "content": "参观博物馆"
+    },
+    {
+      "id": "id_1783777780841_k8kh",
+      "date": "2026-07-06",
+      "time": "09:00-10:00",
+      "location": "社区卫生中心",
+      "content": "非药物干预培训"
+    },
+    {
+      "id": "id_1783852443558_e1m2",
+      "date": "2026-07-13",
+      "time": "14:15-15:30",
+      "location": "泾美家记忆家",
+      "content": "园艺疗法"
+    },
+    {
+      "id": "id_1783852467548_2gb1",
+      "date": "2026-07-14",
+      "time": "14:15-15:30",
+      "location": "泾美家记忆家",
+      "content": "手工制作"
+    },
+    {
+      "id": "id_1783852530174_394c",
+      "date": "2026-07-15",
+      "time": "14:15-15:30",
+      "location": "洋泾泾美家",
+      "content": "认知干预训练"
+    },
+    {
+      "id": "id_1783852556198_2gce",
+      "date": "2026-07-16",
+      "time": "14:15-15:30",
+      "location": "泾美家记忆家",
+      "content": "手工制作"
+    }
+  ],
+  "signups": [
+    {
+      "id": "id_1783307531360_bmeg",
+      "activityId": "id_1783304793300_qrjh",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783307535762_cidg",
+      "activityId": "id_1783304793300_qrjh",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783313425455_381h",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313120521_w52r",
+      "count": 1
+    },
+    {
+      "id": "id_1783313430648_ord7",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783313440566_o91q",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783313445388_ohnj",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313120521_w52r",
+      "count": 1
+    },
+    {
+      "id": "id_1783313468540_i9h8",
+      "activityId": "id_1783304793300_qrjh",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783313471256_9kmc",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783313474296_x37w",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783313477169_4xf2",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783313479819_go9w",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783313501026_7sqt",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783313177556_kd03",
+      "count": 1
+    },
+    {
+      "id": "id_1783313504795_esft",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313177556_kd03",
+      "count": 1
+    },
+    {
+      "id": "id_1783313519248_z1un",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313193402_58vm",
+      "count": 1
+    },
+    {
+      "id": "id_1783313522517_d8o6",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313193402_58vm",
+      "count": 1
+    },
+    {
+      "id": "id_1783313535505_g3pf",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313209621_aecf",
+      "count": 1
+    },
+    {
+      "id": "id_1783313553832_liax",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313177556_kd03",
+      "count": 1
+    },
+    {
+      "id": "id_1783313573562_rezt",
+      "activityId": "id_1783304793300_qrjh",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783313576046_7sxj",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783313578933_5pgf",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783313582076_h4sx",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783313584628_rptr",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783313600268_73si",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313242166_m0hp",
+      "count": 1
+    },
+    {
+      "id": "id_1783313603212_lkl9",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783313242166_m0hp",
+      "count": 1
+    },
+    {
+      "id": "id_1783313642672_7jqj",
+      "activityId": "id_1783304793300_qrjh",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783313645229_4ckj",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783313658709_b1ea",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783313288661_6t0j",
+      "count": 1
+    },
+    {
+      "id": "id_1783313674828_5o2g",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313305598_cu6s",
+      "count": 1
+    },
+    {
+      "id": "id_1783313696385_yyxx",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783313319645_q1gm",
+      "count": 2
+    },
+    {
+      "id": "id_1783313810883_ll2j",
+      "activityId": "id_1783307245064_rrr5",
+      "memberId": "id_1783313333244_fwez",
+      "count": 1
+    },
+    {
+      "id": "id_1783316842077_bxyh",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783316842077_fig4",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783316842077_artg",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783326759732_h95y",
+      "activityId": "id_1783326721449_08rp",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783326759732_qxun",
+      "activityId": "id_1783326272110_yp5z",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783326782978_paxb",
+      "activityId": "id_1783307169430_x866",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783326782978_2223",
+      "activityId": "id_1783307283345_pmm5",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783326782978_teni",
+      "activityId": "id_1783307314398_akyl",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783326782978_5c22",
+      "activityId": "id_1783326721449_08rp",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783326782978_8ghy",
+      "activityId": "id_1783326272110_yp5z",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783551308547_v4gq",
+      "activityId": "id_1783550998813_xcbm",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783551308547_p127",
+      "activityId": "id_1783550969875_61ge",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783551330076_5mdb",
+      "activityId": "id_1783550998813_xcbm",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783551330076_c8hv",
+      "activityId": "id_1783550969875_61ge",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783555650881_3z1e",
+      "activityId": "id_1783553487672_tvgz",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783852769500_d6l8",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783852769501_aw3o",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783852769501_6v8j",
+      "activityId": "id_1783852530174_394c",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783852769501_off0",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783307516441_bvjq",
+      "count": 1
+    },
+    {
+      "id": "id_1783853232361_dial",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783853232361_s5hu",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783853232361_y27z",
+      "activityId": "id_1783852530174_394c",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783853232361_hssv",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783304665442_pzus",
+      "count": 1
+    },
+    {
+      "id": "id_1783853488893_gd6o",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313120521_w52r",
+      "count": 1
+    },
+    {
+      "id": "id_1783853488893_1i7d",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783313120521_w52r",
+      "count": 1
+    },
+    {
+      "id": "id_1783853488893_eqjj",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313120521_w52r",
+      "count": 1
+    },
+    {
+      "id": "id_1783853522014_6oif",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783853522014_r2k4",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783853527066_sfyc",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783853550406_xhq9",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313193402_58vm",
+      "count": 1
+    },
+    {
+      "id": "id_1783853550406_3zcl",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783313193402_58vm",
+      "count": 1
+    },
+    {
+      "id": "id_1783853550406_wgrd",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313193402_58vm",
+      "count": 1
+    },
+    {
+      "id": "id_1783853660693_5l7e",
+      "activityId": "id_1783852530174_394c",
+      "memberId": "id_1783313143540_huu7",
+      "count": 1
+    },
+    {
+      "id": "id_1783853679501_lgfp",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783853615077_bc54",
+      "count": 1
+    },
+    {
+      "id": "id_1783853679501_49iz",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783853615077_bc54",
+      "count": 1
+    },
+    {
+      "id": "id_1783853679501_m338",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783853615077_bc54",
+      "count": 1
+    },
+    {
+      "id": "id_1783853688608_2yos",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783853627757_tq4c",
+      "count": 1
+    },
+    {
+      "id": "id_1783853688608_no7n",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783853627757_tq4c",
+      "count": 1
+    },
+    {
+      "id": "id_1783853688608_11y2",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783853627757_tq4c",
+      "count": 1
+    },
+    {
+      "id": "id_1783853707263_t0gx",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313209621_aecf",
+      "count": 1
+    },
+    {
+      "id": "id_1783853707263_xyig",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313209621_aecf",
+      "count": 1
+    },
+    {
+      "id": "id_1783853774988_hvxl",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783853774988_8fj3",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783853774988_h53n",
+      "activityId": "id_1783852530174_394c",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783853774988_ha57",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313161082_k917",
+      "count": 1
+    },
+    {
+      "id": "id_1783853790850_y8yq",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313260223_h1u3",
+      "count": 1
+    },
+    {
+      "id": "id_1783853812725_xn0b",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783853812725_hpyu",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783853812725_3cl6",
+      "activityId": "id_1783852530174_394c",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783853812725_8hi6",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783313224572_4eio",
+      "count": 1
+    },
+    {
+      "id": "id_1783854385013_o2ct",
+      "activityId": "id_1783852443558_e1m2",
+      "memberId": "id_1783854304857_y5ae",
+      "count": 1
+    },
+    {
+      "id": "id_1783854404467_sq77",
+      "activityId": "id_1783852467548_2gb1",
+      "memberId": "id_1783854329412_zuwo",
+      "count": 1
+    },
+    {
+      "id": "id_1783854404467_d2cu",
+      "activityId": "id_1783852556198_2gce",
+      "memberId": "id_1783854329412_zuwo",
+      "count": 1
+    }
+  ],
+  "times": [
+    "08:30-09:00",
+    "09:00-10:00",
+    "09:30-10:45",
+    "13:30-16:30",
+    "14:00-15:00",
+    "14:15-15:30",
+    "14:15-15:15"
+  ],
+  "locations": [
+    "洋泾泾美家",
+    "泾美家LCM",
+    "社区卫生中心",
+    "静安游泳馆",
+    "上海博物馆",
+    "泾美家记忆家"
+  ],
+  "contents": [
+    "音乐疗法",
+    "体脑协同训练",
+    "手工制作",
+    "健康科普讲座",
+    "艺术疗法",
+    "认知症家庭照料者赋能培训",
+    "认知症改善型工作坊",
+    "体检",
+    "非药物干预培训",
+    "游泳",
+    "参观博物馆",
+    "陪护",
+    "园艺疗法",
+    "认知干预训练"
+  ],
+  "startDate": "2026-07-13"
+}
