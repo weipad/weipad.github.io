@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>认知症日常活动记录</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: #f5f0ea; padding: 12px 10px 30px; color: #2d3a40; }
+        .container { max-width: 520px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 20px 16px 24px; box-shadow: 0 2px 16px rgba(60,50,40,0.10); }
+        h1 { font-size: 24px; font-weight: 600; text-align: center; color: #2d3a40; margin-bottom: 2px; }
+        .sub-title { text-align: center; font-size: 15px; color: #8a7a6a; margin-bottom: 14px; }
+
+        .header-area { background: #f8f4ee; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; border: 1px solid #e8ddd0; }
+        .header-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; justify-content: center; }
+        .header-row label { font-size: 17px; font-weight: 600; color: #4a5a5a; }
+        .header-row .date-nav { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; justify-content: center; }
+        .header-row .date-nav button { background: #e8ddd0; border: none; font-size: 26px; padding: 4px 16px; border-radius: 10px; cursor: pointer; color: #4a5a5a; line-height: 1.6; min-width: 50px; font-weight: 600; transition: 0.15s; }
+        .header-row .date-nav button:active { background: #d5c8b8; }
+        .header-row .date-nav input { font-size: 20px; padding: 8px 10px; border: 1px solid #d5c8b8; border-radius: 10px; text-align: center; background: white; outline: none; width: 180px; font-weight: 500; color: #2d3a40; }
+        .header-row .date-nav input:focus { border-color: #7a9a8a; }
+        .status-badge { font-size: 15px; color: #3a7a5a; background: #e6f0ea; padding: 4px 14px; border-radius: 16px; white-space: nowrap; font-weight: 500; }
+
+        .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #e8ddd0; margin: 8px 0 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 400px; }
+        th { background: #4a6a7a; color: white; padding: 10px 4px; text-align: center; font-weight: 600; font-size: 14px; }
+        td { padding: 6px 3px; border-bottom: 1px solid #ede8e0; text-align: center; vertical-align: middle; }
+        .time-label { font-weight: 600; color: #3a4a4a; background: #f8f4ee; font-size: 15px; white-space: nowrap; text-align: center; padding: 0 4px; }
+
+        td select { width: 100px; padding: 7px 4px; border: 1px solid #d5c8b8; border-radius: 6px; font-size: 14px; background: white; outline: none; min-width: 80px; }
+        td select:focus { border-color: #7a9a8a; }
+        td select option[value=""] { color: #ccc; }
+
+        td input[type="number"] { width: 48px; padding: 8px 2px; text-align: center; border: 1px solid #d5c8b8; border-radius: 6px; font-size: 16px; background: white; outline: none; }
+        td input[type="number"]:focus { border-color: #7a9a8a; }
+        td input[type="number"]::-webkit-outer-spin-button,
+        td input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        td input[type="number"] { -moz-appearance: textfield; }
+
+        .status2-wrap { display: flex; align-items: center; gap: 3px; justify-content: flex-start; padding-left: 12px; }
+        .status2-wrap select { width: 80px; min-width: 68px; font-size: 14px; }
+        .status2-wrap input { width: 48px; padding: 5px 2px; border: 1px solid #d5c8b8; border-radius: 6px; font-size: 14px; outline: none; display: none; text-align: center; height: 34px; }
+        .status2-wrap input:focus { border-color: #7a9a8a; }
+        .status2-wrap input.show { display: inline-block; }
+
+        .footer-area { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 10px 4px 8px; border-top: 1px solid #ede8e0; margin-top: 6px; }
+        .footer-area .total { font-weight: 700; font-size: 19px; color: #2d3a40; }
+        .footer-area .total span { color: #3a7a5a; font-size: 22px; }
+        .footer-area input[type="text"] { flex: 1; min-width: 100px; padding: 8px 12px; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 13px; outline: none; background: white; }
+        .footer-area input[type="text"]:focus { border-color: #7a9a8a; }
+
+        .module-section { background: #faf7f2; border-radius: 12px; padding: 14px 16px; margin: 10px 0 12px; border: 1px solid #e8ddd0; }
+        .module-section .mod-title { font-size: 18px; font-weight: 700; color: #3a5a5a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .module-section .mod-title .badge { font-size: 14px; font-weight: 400; color: #8a7a6a; }
+
+        .health-list { display: flex; flex-direction: column; gap: 8px; }
+        .health-list .row { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; font-size: 17px; color: #2d3a40; }
+        .health-list .row .label { font-weight: 500; min-width: 60px; }
+        .health-list .row input { width: 80px; padding: 8px 6px; text-align: center; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 18px; outline: none; background: white; }
+        .health-list .row input:focus { border-color: #7a9a8a; }
+        .health-list .row .unit { font-size: 15px; color: #8a7a6a; margin-left: 2px; }
+        .health-list .row .sub-label { font-size: 15px; color: #6a7a7a; margin: 0 2px; }
+
+        .med-list { display: flex; flex-direction: column; gap: 8px; }
+        .med-list .row { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; font-size: 17px; color: #2d3a40; }
+        .med-list .row .label { font-weight: 500; min-width: 80px; }
+        .med-list .row input { flex: 1; min-width: 120px; padding: 8px 12px; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 17px; outline: none; background: white; }
+        .med-list .row input:focus { border-color: #7a9a8a; }
+
+        .bpsd-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px 10px; }
+        .bpsd-grid .item { display: flex; align-items: center; gap: 4px; font-size: 17px; color: #2d3a40; font-weight: 500; }
+        .bpsd-grid .item input { width: 100%; min-width: 36px; padding: 8px 4px; text-align: center; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 18px; outline: none; background: white; }
+        .bpsd-grid .item input:focus { border-color: #7a9a8a; }
+
+        .abnormal-area textarea { width: 100%; padding: 10px 12px; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 17px; outline: none; resize: vertical; min-height: 60px; font-family: inherit; background: white; }
+        .abnormal-area textarea:focus { border-color: #7a9a8a; }
+
+        .footer-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 6px 4px 0; width: 100%; }
+        .footer-row label { font-size: 17px; font-weight: 600; color: #4a5a5a; min-width: 50px; }
+        .footer-row input { flex: 1; min-width: 80px; padding: 8px 12px; border: 1px solid #d5c8b8; border-radius: 8px; font-size: 17px; outline: none; background: white; }
+        .footer-row input:focus { border-color: #7a9a8a; }
+
+        .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 10px; }
+        .btn-group button { flex: 1; min-width: 64px; padding: 14px 8px; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.15s; color: white; }
+        .btn-group button:active { transform: scale(0.95); }
+        .btn-add { background: #4a8a6a; }
+        .btn-add:active { background: #3a7a5a; }
+        .btn-modify { background: #c49a6a; }
+        .btn-modify:active { background: #b0885a; }
+        .btn-export { background: #5a7a8a; }
+        .btn-export:active { background: #4a6a7a; }
+        .btn-import { background: #7a6a8a; }
+        .btn-import:active { background: #6a5a7a; }
+        .btn-clear { background: #b06a6a; }
+        .btn-clear:active { background: #9a5a5a; }
+
+        .list-area { margin-top: 12px; border-top: 1px solid #ede8e0; padding-top: 10px; }
+        .list-area .list-title { font-size: 16px; font-weight: 600; color: #3a5a5a; margin-bottom: 6px; }
+        .list-area .list-item { font-size: 15px; padding: 6px 0; border-bottom: 1px solid #f0ece6; color: #4a5a5a; display: flex; justify-content: space-between; }
+        .list-area .list-item .del { color: #b06a6a; cursor: pointer; font-size: 16px; padding: 0 8px; font-weight: 600; }
+        .list-area .empty-tip { color: #aaa; font-size: 15px; text-align: center; padding: 12px 0; }
+
+        .toast { position: fixed; top: 30px; left: 50%; transform: translateX(-50%); background: #3a4a4a; color: white; padding: 14px 28px; border-radius: 14px; font-size: 17px; z-index: 999; opacity: 0; transition: opacity .3s; pointer-events: none; max-width: 92%; text-align: center; font-weight: 500; }
+        .toast.show { opacity: 1; }
+        .toast.success { background: #3a7a5a; }
+        .toast.warning { background: #c49a6a; }
+        .toast.error { background: #b06a6a; }
+
+        .confirm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 50, 50, 0.5);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+        }
+        .confirm-overlay.show { display: flex; }
+        .confirm-box {
+            background: white;
+            border-radius: 18px;
+            padding: 28px 24px 20px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+        }
+        .confirm-box .msg { font-size: 18px; color: #2d3a40; line-height: 1.6; margin-bottom: 20px; }
+        .confirm-box .btn-row { display: flex; gap: 12px; justify-content: center; }
+        .confirm-box .btn-row button { padding: 10px 30px; border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; min-width: 80px; }
+        .confirm-box .btn-row .btn-confirm-yes { background: #b06a6a; color: white; }
+        .confirm-box .btn-row .btn-confirm-yes:active { background: #9a5a5a; }
+        .confirm-box .btn-row .btn-confirm-no { background: #e8ddd0; color: #4a5a5a; }
+        .confirm-box .btn-row .btn-confirm-no:active { background: #d5c8b8; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40,50,50,0.4);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 18px;
+            padding: 24px 20px;
+            max-width: 460px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal h3 { font-size: 20px; margin-bottom: 10px; color: #2d3a40; }
+        .modal textarea { width: 100%; height: 200px; padding: 12px; border: 1px solid #d5c8b8; border-radius: 10px; font-size: 15px; font-family: "Courier New", monospace; resize: vertical; outline: none; }
+        .modal textarea:focus { border-color: #7a9a8a; }
+        .modal .modal-btns { display: flex; gap: 12px; margin-top: 12px; justify-content: flex-end; }
+        .modal .modal-btns button { padding: 12px 28px; border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; }
+        .modal .modal-btns .btn-confirm { background: #4a8a6a; color: white; }
+        .modal .modal-btns .btn-confirm:active { background: #3a7a5a; }
+        .modal .modal-btns .btn-cancel { background: #ede8e0; color: #4a5a5a; }
+        .modal .modal-btns .btn-cancel:active { background: #d5c8b8; }
+        .modal .hint { font-size: 14px; color: #8a7a6a; margin-top: 6px; }
+
+        @media (max-width: 420px) {
+            .container { padding: 14px 10px 18px; }
+            h1 { font-size: 20px; }
+            .header-row .date-nav input { font-size: 17px; width: 140px; padding: 6px 6px; }
+            .header-row .date-nav button { font-size: 22px; min-width: 40px; padding: 2px 10px; }
+            .health-list .row input { width: 64px; font-size: 16px; }
+            .bpsd-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 4px 6px; }
+            .bpsd-grid .item { font-size: 14px; }
+            .bpsd-grid .item input { font-size: 15px; padding: 6px 2px; }
+            td input[type="number"] { width: 38px; font-size: 14px; padding: 6px 1px; }
+            td select { width: 80px; font-size: 12px; padding: 5px 2px; min-width: 64px; }
+            .status2-wrap { padding-left: 6px; }
+            .status2-wrap select { width: 64px; font-size: 12px; min-width: 54px; }
+            .status2-wrap input { width: 40px; font-size: 12px; padding: 4px 2px; height: 28px; }
+            .btn-group button { font-size: 14px; padding: 12px 4px; min-width: 48px; }
+            .med-list .row input { font-size: 15px; padding: 6px 8px; min-width: 80px; }
+            .footer-row input { font-size: 15px; padding: 6px 8px; }
+            .footer-row label { font-size: 15px; min-width: 40px; }
+            .module-section .mod-title { font-size: 16px; }
+            .health-list .row { font-size: 15px; }
+            .health-list .row .label { min-width: 44px; }
+            .footer-area input[type="text"] { font-size: 12px; padding: 6px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 认知症日常活动记录</h1>
+        <div class="sub-title">每日水分 · 活动 · 健康指标</div>
+
+        <div class="header-area">
+            <div class="header-row">
+                <label>📅</label>
+                <div class="date-nav">
+                    <button id="btnPrev">◀</button>
+                    <input type="date" id="selDate">
+                    <button id="btnNext">▶</button>
+                </div>
+                <span class="status-badge" id="statusBadge">● 未暂存</span>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:48px;">时段</th>
+                        <th style="width:52px;">水分<br>(ml)</th>
+                        <th style="width:96px;">活动1</th>
+                        <th style="width:88px;">活动2</th>
+                    </tr>
+                </thead>
+                <tbody id="detailBody"></tbody>
+            </table>
+        </div>
+
+        <div class="footer-area">
+            <div class="total">💧 合计：<span id="totalWater">0</span> ml</div>
+            <input type="text" id="inputRemark" placeholder="备注（选填）" style="flex:2;min-width:100px;">
+        </div>
+
+        <div class="module-section">
+            <div class="mod-title">📊 健康指标</div>
+            <div class="health-list">
+                <div class="row"><span class="label">体重</span><input type="number" id="hWeight" step="0.1" min="0" max="300" placeholder=""><span class="unit">kg</span></div>
+                <div class="row"><span class="label">血糖</span><span class="sub-label">空腹</span><input type="number" id="hSugarF" step="0.1" min="0" max="50" placeholder=""><span class="sub-label">饭后</span><input type="number" id="hSugarP" step="0.1" min="0" max="50" placeholder=""></div>
+                <div class="row"><span class="label">血压</span><input type="number" id="hBPSys" step="1" min="0" max="300" placeholder=""><span class="sub-label">/</span><input type="number" id="hBPDia" step="1" min="0" max="200" placeholder=""></div>
+                <div class="row"><span class="label">心率</span><input type="number" id="hHeart" step="1" min="0" max="300" placeholder=""><span class="unit">次/分</span></div>
+                <div class="row"><span class="label">HbA1c</span><input type="number" id="hHba1c" step="0.1" min="0" max="20" placeholder=""><span class="unit">%</span></div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="mod-title">💊 服药情况</div>
+            <div class="med-list">
+                <div class="row"><span class="label">认知症类</span><input type="text" id="medCog" placeholder="药物名称"></div>
+                <div class="row"><span class="label">其他</span><input type="text" id="medOther" placeholder="药物名称"></div>
+                <div class="row"><span class="label">保健品</span><input type="text" id="medSupp" placeholder="名称"></div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="mod-title">🧠 BPSD症状 <span class="badge">填次数</span></div>
+            <div class="bpsd-grid" id="bpsdGrid">
+                <span class="item">① <input type="number" id="bpsd1" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">② <input type="number" id="bpsd2" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">③ <input type="number" id="bpsd3" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">④ <input type="number" id="bpsd4" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">⑤ <input type="number" id="bpsd5" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">⑥ <input type="number" id="bpsd6" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">⑦ <input type="number" id="bpsd7" step="1" min="0" max="99" placeholder=""></span>
+                <span class="item">⑧ <input type="number" id="bpsd8" step="1" min="0" max="99" placeholder=""></span>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="mod-title">⚠️ 异常情况 <span class="badge">选填</span></div>
+            <div class="abnormal-area">
+                <textarea id="abnormalText" placeholder="记录异常情况（时间/地点/状况/应对/结果等）" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="footer-row">
+            <label>长者</label>
+            <input type="text" id="inputElder" placeholder="长者姓名">
+            <label>照顾者</label>
+            <input type="text" id="inputCaregiver" placeholder="照顾者姓名">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-add" id="btnAdd">📝 添加</button>
+            <button class="btn-modify" id="btnModify">✏️ 修改</button>
+            <button class="btn-export" id="btnExport">📤 导出上报</button>
+            <button class="btn-import" id="btnImport">📥 导入数据</button>
+            <button class="btn-clear" id="btnClear">🗑 清空</button>
+        </div>
+
+        <div class="list-area">
+            <div class="list-title">📁 已暂存记录</div>
+            <div id="listContainer"><div class="empty-tip">暂无数据</div></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-box">
+            <div class="msg" id="confirmMsg">确认操作？</div>
+            <div class="btn-row">
+                <button class="btn-confirm-no" id="confirmNo">取消</button>
+                <button class="btn-confirm-yes" id="confirmYes">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="importModal">
+        <div class="modal">
+            <h3>📥 导入数据</h3>
+            <p style="font-size:16px;color:#6a7a6a;margin-bottom:8px;">请粘贴接收到的JSON数据：</p>
+            <textarea id="importTextarea" placeholder='{"elder":"张三","records":[...]}'></textarea>
+            <div class="hint">💡 将合并添加到现有数据，相同日期自动覆盖</div>
+            <div class="modal-btns">
+                <button class="btn-cancel" id="importCancel">取消</button>
+                <button class="btn-confirm" id="importConfirm">✅ 加载数据</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. 时段配置
+        // ============================================================
+        const TIME_SLOTS = [
+            '6:00', '7:00', '8:00', '9:00', '10:00', '11:00',
+            '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
+            '18:00', '19:00', '20:00', '21:00', '22:00'
+        ];
+
+        // ============================================================
+        // 2. 下拉选项
+        // ============================================================
+        const STATUS1_OPTIONS = ['', '☀️ 晨光浴', '🍽️ 饮食', '☕ 午茶', '🚽 排便', '🚶 外出', '🏃 有氧运动', '👥 社交', '💪 抗阻运动'];
+        const STATUS2_OPTIONS = ['', '晨光浴', '饮食', '午茶', '排便', '外出', '有氧运动', '社交', '抗阻运动', '起床', '早餐', '午餐', '晚餐', '午休', '入睡'];
+
+        // ============================================================
+        // 3. 存储
+        // ============================================================
+        const STORAGE_KEY = 'cog_records_v2';
+
+        function getRecords() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+        }
+
+        function saveRecords(r) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+        }
+
+        function getYesterdayStr() {
+            const d = new Date();
+            d.setDate(d.getDate() - 1);
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2,
+                '0');
+        }
+
+        function formatDate(d) {
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2,
+                '0');
+        }
+
+        // ============================================================
+        // 4. DOM
+        // ============================================================
+        const $ = id => document.getElementById(id);
+        const selDate = $('selDate');
+        const detailBody = $('detailBody');
+        const totalWater = $('totalWater');
+        const statusBadge = $('statusBadge');
+        const listContainer = $('listContainer');
+        const inputRemark = $('inputRemark');
+        const inputElder = $('inputElder');
+        const inputCaregiver = $('inputCaregiver');
+        const toast = $('toast');
+        const importModal = $('importModal');
+        const importTextarea = $('importTextarea');
+
+        const confirmOverlay = $('confirmOverlay');
+        const confirmMsg = $('confirmMsg');
+        const confirmYes = $('confirmYes');
+        const confirmNo = $('confirmNo');
+        let confirmResolve = null;
+
+        const hWeight = $('hWeight');
+        const hSugarF = $('hSugarF');
+        const hSugarP = $('hSugarP');
+        const hBPSys = $('hBPSys');
+        const hBPDia = $('hBPDia');
+        const hHeart = $('hHeart');
+        const hHba1c = $('hHba1c');
+
+        const medCog = $('medCog');
+        const medOther = $('medOther');
+        const medSupp = $('medSupp');
+
+        const bpsdIds = ['bpsd1', 'bpsd2', 'bpsd3', 'bpsd4', 'bpsd5', 'bpsd6', 'bpsd7', 'bpsd8'];
+        const bpsdEls = bpsdIds.map(id => $(id));
+
+        const abnormalText = $('abnormalText');
+
+        // ============================================================
+        // 5. 渲染表格
+        // ============================================================
+        function renderTable(data) {
+            let html = '';
+            TIME_SLOTS.forEach(slot => {
+                const d = data && data.details && data.details[slot] ? data.details[slot] : { water: '',
+                    status1: '', status2: '' };
+                const waterVal = (d.water !== undefined && d.water !== null && d.water !== 0) ? d.water : '';
+                html += `<tr>
+                        <td class="time-label">${slot}</td>
+                        <td><input type="number" class="water-input" data-key="${slot}" value="${waterVal}" min="0" max="999" placeholder=""></td>
+                        <td>${buildSelect1(slot, d.status1 || '')}</td>
+                        <td>${buildStatus2(slot, d.status2 || '')}</td>
+                    </tr>`;
+            });
+            detailBody.innerHTML = html;
+            detailBody.querySelectorAll('.water-input').forEach(inp => inp.addEventListener('input', calcTotal));
+            detailBody.querySelectorAll('.status1-select').forEach(sel => sel.addEventListener('change', calcTotal));
+            detailBody.querySelectorAll('.status2-select').forEach(sel => {
+                sel.addEventListener('change', function() { calcTotal();
+                    handleStatus2Change(this); });
+            });
+            detailBody.querySelectorAll('.status2-other').forEach(inp => inp.addEventListener('input', calcTotal));
+            calcTotal();
+            setTimeout(initStatus2Others, 50);
+        }
+
+        function buildSelect1(key, val) {
+            let html = `<select class="status1-select" data-key="${key}">`;
+            STATUS1_OPTIONS.forEach(o => {
+                html += `<option value="${o}" ${o === val ? 'selected' : ''}>${o || '—'}</option>`;
+            });
+            html += '</select>';
+            return html;
+        }
+
+        function buildStatus2(key, val) {
+            const isOther = val && !STATUS2_OPTIONS.includes(val);
+            const selVal = isOther ? '__other__' : (val || '');
+            const otherVal = isOther ? val : '';
+            const show = isOther || selVal === '__other__';
+            let html = `<div class="status2-wrap">
+                        <select class="status2-select" data-key="${key}">`;
+            STATUS2_OPTIONS.forEach(o => {
+                html += `<option value="${o}" ${o === selVal ? 'selected' : ''}>${o || '—'}</option>`;
+            });
+            html += `<option value="__other__">其他</option>
+                    </select>
+                    <input type="text" class="status2-other" data-key="${key}" placeholder="填写" value="${otherVal}" ${show ? 'style="display:inline-block;"' : ''}>
+                    </div>`;
+            return html;
+        }
+
+        function handleStatus2Change(sel) {
+            const wrap = sel.closest('.status2-wrap');
+            if (!wrap) return;
+            const other = wrap.querySelector('.status2-other');
+            if (!other) return;
+            if (sel.value === '__other__') {
+                other.style.display = 'inline-block';
+                other.classList.add('show');
+                other.focus();
+            } else {
+                other.style.display = 'none';
+                other.classList.remove('show');
+                other.value = '';
+            }
+        }
+
+        function initStatus2Others() {
+            document.querySelectorAll('.status2-wrap').forEach(wrap => {
+                const sel = wrap.querySelector('.status2-select');
+                const other = wrap.querySelector('.status2-other');
+                if (!sel || !other) return;
+                if (sel.value === '__other__') {
+                    other.style.display = 'inline-block';
+                    other.classList.add('show');
+                } else {
+                    const isStd = STATUS2_OPTIONS.some(o => o === sel.value);
+                    if (sel.value && !isStd) {
+                        other.value = sel.value;
+                        other.style.display = 'inline-block';
+                        other.classList.add('show');
+                        sel.value = '__other__';
+                    } else {
+                        other.style.display = 'none';
+                        other.classList.remove('show');
+                        other.value = '';
+                    }
+                }
+            });
+        }
+
+        function collectFormData() {
+            const date = selDate.value;
+            const remark = inputRemark.value.trim();
+            const elder = inputElder.value.trim();
+            const caregiver = inputCaregiver.value.trim();
+            const details = {};
+            let total = 0;
+            detailBody.querySelectorAll('.water-input').forEach(inp => {
+                const key = inp.dataset.key;
+                const val = parseFloat(inp.value) || 0;
+                total += val;
+                const row = inp.closest('tr');
+                const s1 = row ? row.querySelector('.status1-select') : null;
+                const s2Sel = row ? row.querySelector('.status2-select') : null;
+                const s2Other = row ? row.querySelector('.status2-other') : null;
+                let s2 = '';
+                if (s2Sel) {
+                    if (s2Sel.value === '__other__') {
+                        s2 = s2Other ? s2Other.value.trim() : '';
+                    } else {
+                        s2 = s2Sel.value;
+                    }
+                }
+                details[key] = { water: val, status1: s1 ? s1.value : '', status2: s2 };
+            });
+
+            const health = {
+                weight: parseFloat(hWeight.value) || 0,
+                sugarFasting: parseFloat(hSugarF.value) || 0,
+                sugarPost: parseFloat(hSugarP.value) || 0,
+                bpSystolic: parseInt(hBPSys.value) || 0,
+                bpDiastolic: parseInt(hBPDia.value) || 0,
+                heartRate: parseInt(hHeart.value) || 0,
+                hba1c: parseFloat(hHba1c.value) || 0
+            };
+
+            const medication = {
+                cognitive: medCog.value.trim(),
+                other: medOther.value.trim(),
+                supplements: medSupp.value.trim()
+            };
+
+            const bpsd = {};
+            bpsdEls.forEach((el, i) => {
+                bpsd['b' + (i + 1)] = parseInt(el.value) || 0;
+            });
+
+            const abnormal = abnormalText.value.trim();
+
+            return { date, elder, caregiver, remark, details, total, health, medication, bpsd, abnormal };
+        }
+
+        function fillFormData(data) {
+            if (!data) return;
+            if (data.elder) inputElder.value = data.elder;
+            if (data.caregiver) inputCaregiver.value = data.caregiver;
+            if (data.remark !== undefined) inputRemark.value = data.remark || '';
+
+            const h = data.health || {};
+            hWeight.value = (h.weight && h.weight !== 0) ? h.weight : '';
+            hSugarF.value = (h.sugarFasting && h.sugarFasting !== 0) ? h.sugarFasting : '';
+            hSugarP.value = (h.sugarPost && h.sugarPost !== 0) ? h.sugarPost : '';
+            hBPSys.value = (h.bpSystolic && h.bpSystolic !== 0) ? h.bpSystolic : '';
+            hBPDia.value = (h.bpDiastolic && h.bpDiastolic !== 0) ? h.bpDiastolic : '';
+            hHeart.value = (h.heartRate && h.heartRate !== 0) ? h.heartRate : '';
+            hHba1c.value = (h.hba1c && h.hba1c !== 0) ? h.hba1c : '';
+
+            const m = data.medication || {};
+            medCog.value = m.cognitive || '';
+            medOther.value = m.other || '';
+            medSupp.value = m.supplements || '';
+
+            const b = data.bpsd || {};
+            bpsdEls.forEach((el, i) => {
+                const key = 'b' + (i + 1);
+                const val = b[key] || 0;
+                el.value = (val && val !== 0) ? val : '';
+            });
+
+            abnormalText.value = data.abnormal || '';
+
+            if (data.details) {
+                TIME_SLOTS.forEach(slot => {
+                    const d = data.details[slot];
+                    if (!d) return;
+                    const waterInp = detailBody.querySelector(`.water-input[data-key="${slot}"]`);
+                    if (waterInp) {
+                        waterInp.value = (d.water !== undefined && d.water !== null && d.water !== 0) ? d
+                            .water : '';
+                    }
+                    const s1 = detailBody.querySelector(`.status1-select[data-key="${slot}"]`);
+                    if (s1) s1.value = d.status1 || '';
+                    const s2Sel = detailBody.querySelector(`.status2-select[data-key="${slot}"]`);
+                    const s2Other = detailBody.querySelector(`.status2-other[data-key="${slot}"]`);
+                    if (s2Sel) {
+                        const val = d.status2 || '';
+                        const isOther = val && !STATUS2_OPTIONS.includes(val);
+                        if (isOther) {
+                            s2Sel.value = '__other__';
+                            if (s2Other) { s2Other.value = val;
+                                s2Other.style.display = 'inline-block';
+                                s2Other.classList.add('show'); }
+                        } else {
+                            s2Sel.value = val;
+                            if (s2Other) { s2Other.value = '';
+                                s2Other.style.display = 'none';
+                                s2Other.classList.remove('show'); }
+                        }
+                    }
+                });
+            }
+            calcTotal();
+            setTimeout(initStatus2Others, 50);
+        }
+
+        function calcTotal() {
+            let total = 0;
+            detailBody.querySelectorAll('.water-input').forEach(inp => {
+                total += parseFloat(inp.value) || 0;
+            });
+            totalWater.textContent = total;
+            return total;
+        }
+
+        // ============================================================
+        // 6. 加载/保存
+        // ============================================================
+        function getCurrentElder() {
+            return inputElder.value.trim() || '';
+        }
+
+        function loadDataToForm(date) {
+            if (!date) { renderTable(null);
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a'; return; }
+            const elder = getCurrentElder();
+            if (!elder) {
+                renderTable(null);
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a';
+                return;
+            }
+            const records = getRecords();
+            const key = elder + '_' + date;
+            const data = records[key];
+            if (data) {
+                fillFormData(data);
+                statusBadge.textContent = '● 已暂存';
+                statusBadge.style.color = '#3a7a5a';
+            } else {
+                renderTable(null);
+                hWeight.value = '';
+                hSugarF.value = '';
+                hSugarP.value = '';
+                hBPSys.value = '';
+                hBPDia.value = '';
+                hHeart.value = '';
+                hHba1c.value = '';
+                medCog.value = '';
+                medOther.value = '';
+                medSupp.value = '';
+                bpsdEls.forEach(el => el.value = '');
+                abnormalText.value = '';
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a';
+            }
+        }
+
+        function customConfirm(msg) {
+            return new Promise((resolve) => {
+                confirmMsg.textContent = msg;
+                confirmOverlay.classList.add('show');
+                confirmResolve = resolve;
+            });
+        }
+
+        confirmYes.addEventListener('click', function() {
+            confirmOverlay.classList.remove('show');
+            if (confirmResolve) { confirmResolve(true);
+                confirmResolve = null; }
+        });
+        confirmNo.addEventListener('click', function() {
+            confirmOverlay.classList.remove('show');
+            if (confirmResolve) { confirmResolve(false);
+                confirmResolve = null; }
+        });
+        confirmOverlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                confirmOverlay.classList.remove('show');
+                if (confirmResolve) { confirmResolve(false);
+                    confirmResolve = null; }
+            }
+        });
+
+        async function saveCurrentData(mode) {
+            const elder = getCurrentElder();
+            if (!elder) {
+                showToast('⚠️ 请先填写长者姓名', 'warning');
+                return;
+            }
+            const data = collectFormData();
+            if (!data.date) { showToast('请选择日期', 'warning'); return; }
+            const key = elder + '_' + data.date;
+            const records = getRecords();
+            const exists = !!records[key];
+            if (mode === 'add' && exists) {
+                const ok = await customConfirm(`📌 ${elder} ${data.date} 已有数据，是否覆盖？`);
+                if (!ok) return;
+            }
+            if (mode === 'modify' && !exists) {
+                showToast('当天无数据，请使用「添加」', 'warning');
+                return;
+            }
+            records[key] = {
+                elder: data.elder,
+                caregiver: data.caregiver,
+                date: data.date,
+                remark: data.remark,
+                details: data.details,
+                total: data.total,
+                health: data.health,
+                medication: data.medication,
+                bpsd: data.bpsd,
+                abnormal: data.abnormal,
+                updatedAt: new Date().toISOString()
+            };
+            saveRecords(records);
+            loadDataToForm(data.date);
+            updateList();
+            showToast(`✅ 已${mode === 'add' ? (exists ? '覆盖' : '添加') : '修改'} ${elder} ${data.date}`, 'success');
+        }
+
+        // ============================================================
+        // 7. 列表
+        // ============================================================
+        function updateList() {
+            const elder = getCurrentElder();
+            if (!elder) {
+                listContainer.innerHTML = '<div class="empty-tip">请填写长者姓名</div>';
+                return;
+            }
+            const records = getRecords();
+            const keys = Object.keys(records).filter(k => k.startsWith(elder + '_'));
+            if (keys.length === 0) {
+                listContainer.innerHTML = '<div class="empty-tip">暂无已暂存数据</div>';
+                return;
+            }
+            keys.sort((a, b) => {
+                const da = a.split('_')[1];
+                const db = b.split('_')[1];
+                return da < db ? 1 : -1;
+            });
+            let html = '';
+            keys.forEach(k => {
+                const date = k.split('_')[1];
+                const record = records[k];
+                const total = record.total || 0;
+                const cnt = record.details ? Object.values(record.details).filter(v => v.status1 || v.status2)
+                    .length : 0;
+                const hasHealth = record.health && Object.values(record.health).some(v => v && v !== 0);
+                const hasBpsd = record.bpsd && Object.values(record.bpsd).some(v => v && v !== 0);
+                let tag = '';
+                if (hasHealth) tag += '📊';
+                if (hasBpsd) tag += '🧠';
+                html += `<div class="list-item">
+                            <span>📅 ${date}  💧${total}ml  ${cnt > 0 ? '🏷️'+cnt+'项' : ''} ${tag}</span>
+                            <span class="del" data-key="${k}">✕</span>
+                        </div>`;
+            });
+            listContainer.innerHTML = html;
+            listContainer.querySelectorAll('.del').forEach(el => {
+                el.addEventListener('click', async function() {
+                    const key = this.dataset.key;
+                    const ok = await customConfirm(`确认删除 ${key.replace('_',' 的 ')} 的数据吗？`);
+                    if (!ok) return;
+                    const r = getRecords();
+                    delete r[key];
+                    saveRecords(r);
+                    updateList();
+                    const curDate = selDate.value;
+                    if (curDate && key === getCurrentElder() + '_' + curDate) {
+                        loadDataToForm(curDate);
+                    }
+                    showToast('已删除', 'success');
+                });
+            });
+        }
+
+        // ============================================================
+        // 8. 导出上报（复制 + 静默下载JSON文件）
+        // ============================================================
+        function exportData() {
+            const elder = getCurrentElder();
+            if (!elder) {
+                showToast('请先填写长者姓名', 'warning');
+                return;
+            }
+            const records = getRecords();
+            const keys = Object.keys(records).filter(k => k.startsWith(elder + '_'));
+            if (keys.length === 0) {
+                showToast('暂无数据可导出', 'warning');
+                return;
+            }
+            keys.sort((a, b) => {
+                const da = a.split('_')[1];
+                const db = b.split('_')[1];
+                return da < db ? -1 : 1;
+            });
+
+            const recordList = [];
+            keys.forEach(k => {
+                const r = records[k];
+                const details = {};
+                TIME_SLOTS.forEach(slot => {
+                    const d = r.details && r.details[slot] ? r.details[slot] : { water: 0,
+                        status1: '', status2: '' };
+                    details[slot] = { water: d.water || 0, status1: d.status1 || '', status2: d
+                            .status2 || '' };
+                });
+                recordList.push({
+                    date: r.date || k.split('_')[1],
+                    caregiver: r.caregiver || '',
+                    remark: r.remark || '',
+                    details: details,
+                    total: r.total || 0,
+                    health: r.health || {},
+                    medication: r.medication || {},
+                    bpsd: r.bpsd || {},
+                    abnormal: r.abnormal || ''
+                });
+            });
+
+            const output = {
+                elder: elder,
+                records: recordList,
+                exportedAt: new Date().toISOString()
+            };
+            const json = JSON.stringify(output, null, 2);
+
+            // 1. 复制到剪贴板（原有功能）
+            copyToClipboard(json);
+
+            // 2. 静默下载JSON文件（新增，不打扰用户）
+            try {
+                const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                const now = new Date();
+                const dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+                link.download = elder + '_' + dateStr + '.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            } catch (e) {
+                // 静默失败，不影响主流程
+            }
+
+            showToast(`✅ 已导出 ${keys.length} 天数据`, 'success');
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+        }
+
+        // ============================================================
+        // 9. 导入数据（加载数据按钮不变，取消改为选文件）
+        // ============================================================
+        function importData(jsonStr) {
+            let parsed;
+            try {
+                parsed = JSON.parse(jsonStr);
+            } catch (e) {
+                showToast('❌ JSON格式错误：' + e.message, 'error');
+                return false;
+            }
+            if (!parsed.elder || !parsed.records || !Array.isArray(parsed.records)) {
+                showToast('❌ 数据格式不完整，缺少 elder 或 records', 'error');
+                return false;
+            }
+            const elder = parsed.elder;
+            const records = getRecords();
+            let added = 0,
+                updated = 0;
+            parsed.records.forEach(item => {
+                const date = item.date;
+                if (!date) return;
+                const key = elder + '_' + date;
+                const exists = !!records[key];
+                const details = {};
+                TIME_SLOTS.forEach(slot => {
+                    const d = item.details && item.details[slot] ? item.details[slot] : { water: 0,
+                        status1: '', status2: '' };
+                    details[slot] = { water: d.water || 0, status1: d.status1 || '', status2: d
+                            .status2 || '' };
+                });
+                records[key] = {
+                    elder: elder,
+                    caregiver: item.caregiver || '',
+                    date: date,
+                    remark: item.remark || '',
+                    details: details,
+                    total: item.total || 0,
+                    health: item.health || {},
+                    medication: item.medication || {},
+                    bpsd: item.bpsd || {},
+                    abnormal: item.abnormal || '',
+                    updatedAt: new Date().toISOString()
+                };
+                if (exists) updated++;
+                else added++;
+            });
+            saveRecords(records);
+            inputElder.value = elder;
+            localStorage.setItem('cog_last_elder_v2', elder);
+            const curDate = selDate.value;
+            if (curDate) {
+                loadDataToForm(curDate);
+                updateList();
+            }
+            showToast(`✅ 导入完成：新增 ${added} 条，更新 ${updated} 条（长者：${elder}）`, 'success');
+            return true;
+        }
+
+        // 从文件导入
+        function importFromFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonStr = e.target.result;
+                    importData(jsonStr);
+                } catch (err) {
+                    showToast('❌ 文件读取失败：' + err.message, 'error');
+                }
+            };
+            reader.onerror = function() {
+                showToast('❌ 文件读取失败', 'error');
+            };
+            reader.readAsText(file);
+        }
+
+        // 触发文件选择器
+        function triggerFileImport() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    importFromFile(file);
+                }
+                input.remove();
+            };
+            input.click();
+        }
+
+        // ============================================================
+        // 10. 清空（不变）
+        // ============================================================
+        async function clearAllData() {
+            const elder = getCurrentElder();
+            if (!elder) {
+                showToast('请先填写长者姓名', 'warning');
+                return;
+            }
+            const records = getRecords();
+            const keys = Object.keys(records).filter(k => k.startsWith(elder + '_'));
+            if (keys.length === 0) {
+                showToast('暂无数据可清空', 'warning');
+                return;
+            }
+            const ok1 = await customConfirm(`⚠️ 确认清空 ${elder} 的全部 ${keys.length} 条数据吗？`);
+            if (!ok1) return;
+            const ok2 = await customConfirm(`⚠️ 再次确认：此操作不可恢复！`);
+            if (!ok2) return;
+            const newRecords = {};
+            Object.keys(records).forEach(k => {
+                if (!k.startsWith(elder + '_')) newRecords[k] = records[k];
+            });
+            saveRecords(newRecords);
+            updateList();
+            const curDate = selDate.value;
+            if (curDate) loadDataToForm(curDate);
+            else { renderTable(null);
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a'; }
+            showToast(`已清空 ${elder} 的全部数据`, 'success');
+        }
+
+        // ============================================================
+        // 11. Toast
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(msg, type) {
+            toast.textContent = msg;
+            toast.className = 'toast show';
+            if (type) toast.classList.add(type);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { toast.classList.remove('show'); }, 2800);
+        }
+
+        // ============================================================
+        // 12. 事件绑定
+        // ============================================================
+        $('btnPrev').addEventListener('click', function() {
+            const d = new Date(selDate.value + 'T00:00:00');
+            d.setDate(d.getDate() - 1);
+            selDate.value = formatDate(d);
+            loadDataToForm(selDate.value);
+            updateList();
+        });
+        $('btnNext').addEventListener('click', function() {
+            const d = new Date(selDate.value + 'T00:00:00');
+            d.setDate(d.getDate() + 1);
+            selDate.value = formatDate(d);
+            loadDataToForm(selDate.value);
+            updateList();
+        });
+
+        // 【关键】点击日期框改变日期，不刷新数据，便于复制添加
+        selDate.addEventListener('change', function() {
+            // 只更新日期，不加载数据，不刷新表单
+            const parts = this.value.split('-');
+            if (parts.length === 3) {
+                currentDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            }
+            statusBadge.textContent = '● 未暂存';
+            statusBadge.style.color = '#8a9a8a';
+        });
+
+        inputElder.addEventListener('change', function() {
+            const val = this.value.trim();
+            if (val) {
+                localStorage.setItem('cog_last_elder_v2', val);
+                const date = selDate.value;
+                if (date) { loadDataToForm(date);
+                    updateList(); }
+            } else {
+                renderTable(null);
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a';
+                listContainer.innerHTML = '<div class="empty-tip">请填写长者姓名</div>';
+            }
+        });
+
+        $('btnAdd').addEventListener('click', () => saveCurrentData('add'));
+        $('btnModify').addEventListener('click', () => saveCurrentData('modify'));
+        $('btnExport').addEventListener('click', exportData);
+        $('btnClear').addEventListener('click', clearAllData);
+
+        // 导入按钮：打开模态框（不变）
+        $('btnImport').addEventListener('click', function() {
+            importTextarea.value = '';
+            importModal.classList.add('show');
+            setTimeout(() => importTextarea.focus(), 100);
+        });
+
+        // 加载数据按钮：粘贴导入（不变）
+        $('importConfirm').addEventListener('click', function() {
+            const txt = importTextarea.value.trim();
+            if (!txt) { showToast('请粘贴JSON数据', 'warning'); return; }
+            const success = importData(txt);
+            if (success) {
+                importModal.classList.remove('show');
+            }
+        });
+
+        // 取消按钮：关闭弹窗 → 弹出文件选择器（新增）
+        $('importCancel').addEventListener('click', function() {
+            importModal.classList.remove('show');
+            setTimeout(() => {
+                triggerFileImport();
+            }, 100);
+        });
+
+        // 点击模态框外部关闭（不变）
+        importModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        document.querySelectorAll('input[type="number"]').forEach(inp => {
+            inp.addEventListener('blur', function() {
+                if (this.value === '0' || this.value === '0.0') {
+                    this.value = '';
+                }
+            });
+        });
+
+        // ============================================================
+        // 13. 初始化
+        // ============================================================
+        let currentDate = new Date();
+
+        function init() {
+            const yesterday = getYesterdayStr();
+            selDate.value = yesterday;
+            const savedElder = localStorage.getItem('cog_last_elder_v2');
+            if (savedElder) {
+                inputElder.value = savedElder;
+            }
+            if (inputElder.value.trim()) {
+                loadDataToForm(yesterday);
+                updateList();
+            } else {
+                renderTable(null);
+                statusBadge.textContent = '● 未暂存';
+                statusBadge.style.color = '#8a9a8a';
+                listContainer.innerHTML = '<div class="empty-tip">请填写长者姓名后查看数据</div>';
+            }
+            setTimeout(initStatus2Others, 200);
+        }
+        init();
+    </script>
+</body>
+</html>
